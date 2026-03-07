@@ -8,6 +8,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eryue0220/tiger-openapi.git"
+  },
+  "author": "eryue0220<eryue0220@gmail.com>",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
