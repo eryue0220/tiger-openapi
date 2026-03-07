@@ -40,15 +40,9 @@ updates:
           - 'eslint-plugin-prettier'
           - '@eslint/*'
           - 'globals'
-
-      prettier:
-        patterns:
           - 'prettier'
-
-      turbo:
-        patterns:
-          - 'turbo'
 
       vitest:
         patterns:
           - 'vitest'
+          - '@vitest/*'
