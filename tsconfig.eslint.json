@@ -4,6 +4,12 @@
     "allowJs": true,
     "noEmit": true
   },
-  "include": ["packages/**/*.ts", "scripts/**/*.mjs", "*.config.js", "*.config.ts"],
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.mjs",
+    "scripts/**/*.mjs",
+    "*.config.js",
+    "*.config.ts"
+  ],
   "exclude": ["**/dist/**", "**/node_modules/**", "**/coverage/**"]
 }
