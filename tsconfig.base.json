@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": ".",
+    "paths": {
+      "@tiger-openapi/shared": ["packages/shared/src/index.ts"],
+      "@tiger-openapi/http": ["packages/http/src/index.ts"],
+      "@tiger-openapi/pb": ["packages/pb/src/index.ts"],
+      "@tiger-openapi/stream": ["packages/stream/src/index.ts"],
+      "@tiger-openapi/core": ["packages/core/src/index.ts"],
+      "@tiger-openapi/node": ["packages/node/src/index.ts"],
+      "@tiger-openapi/browser": ["packages/browser/src/index.ts"]
+    },
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false
+  }
+}

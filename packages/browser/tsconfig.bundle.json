@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "outDir": "./dist",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "../core/src/**/*.ts",
+    "../core/package.json",
+    "../http/src/**/*.ts",
+    "../pb/src/**/*.ts",
+    "../stream/src/**/*.ts",
+    "../shared/src/**/*.ts"
+  ],
+  "exclude": ["dist", "node_modules", "../**/dist/**", "../**/tests/**"]
+}
