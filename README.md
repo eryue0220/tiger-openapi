@@ -16,7 +16,8 @@ It also supports multiple runtime targets at the architecture level:
 ---
 
 > [!IMPORTANT]  
-> This is not the official NodeJS SDK, and currently it's still under development
+> This is not the official NodeJS SDK, and currently it's still under development.
+
 ---
 
 ## Installation
@@ -44,7 +45,6 @@ const tiger = new TigerClient({
   account: '...',
   privateKey: '-...',
 });
-
 ```
 
 ### Browser
