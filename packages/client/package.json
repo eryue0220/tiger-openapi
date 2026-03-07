@@ -26,5 +26,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "tiger-openapi-core": "workspace:*"
   }
 }
