@@ -1,4 +1,4 @@
-import { getDeviceId } from '@tiger-openapi/shared';
+import { getDeviceId } from 'tiger-openapi-shared';
 import type { TigerClient } from '../../tiger-client.js';
 import type { TigerRequestOptions } from '../../types.js';
 import type {

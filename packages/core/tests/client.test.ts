@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { TigerClient } from '../src/index.js';
 
-describe('@tiger-openapi/core', () => {
+describe('tiger-openapi-core', () => {
   it('mounts quote methods on the client instance', async () => {
     const client = new TigerClient({
       tigerId: '20150144',

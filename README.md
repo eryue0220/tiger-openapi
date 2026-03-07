@@ -2,10 +2,10 @@
 
 TypeScript monorepo for building a Tiger OpenAPI SDK across multiple runtimes and deployment environments.
 
-The repository currently exposes two public entry packages:
+The repository currently exposes one public package with a browser subpath export:
 
-- `@tiger-openapi/node`
-- `@tiger-openapi/browser`
+- `tiger-openapi`
+- `tiger-openapi/browser`
 
 It also supports multiple runtime targets at the architecture level:
 
@@ -26,26 +26,26 @@ It also supports multiple runtime targets at the architecture level:
 
 ```bash
 # via pnpm
-pnpm add @tiger-openapi/node
+pnpm add tiger-openapi
 
 # via npm
-npm i @tiger-openapi/node
+npm i tiger-openapi
 
 # via yarn
-yarn add @tiger-openapi/node
+yarn add tiger-openapi
 ```
 
 or
 
 ```bash
 # via pnpm
-pnpm add @tiger-openapi/browser
+pnpm add tiger-openapi
 
 # via npm
-npm i @tiger-openapi/browser
+npm i tiger-openapi
 
 # via yarn
-yarn add @tiger-openapi/browser
+yarn add tiger-openapi
 ```
 
 ## Quick Start
@@ -53,7 +53,7 @@ yarn add @tiger-openapi/browser
 ### Node.js
 
 ```ts
-import { TigerClient, createTigerClient } from '@tiger-openapi/node';
+import { TigerClient, createTigerClient } from 'tiger-openapi';
 
 // apply in tiger openapi page
 const tiger = new TigerClient({
@@ -74,7 +74,7 @@ const tiger = createTigerClient({
 ### Browser
 
 ```ts
-import { TigerClient, createTigerClient } from '@tiger-openapi/browser';
+import { TigerClient, createTigerClient } from 'tiger-openapi/browser';
 
 // apply in tiger openapi page
 const tiger = new TigerClient({

@@ -1,4 +1,4 @@
-import type { PbCodecRegistry, PbEnvelope } from '@tiger-openapi/pb';
+import type { PbCodecRegistry, PbEnvelope } from 'tiger-openapi-pb';
 
 export type TigerWebSocketFactory = (url: string) => WebSocketLike;
 

@@ -1,16 +1,18 @@
-import { TigerClient as CoreTigerClient, VERSION } from '@tiger-openapi/core';
+import { TigerClient as CoreTigerClient, VERSION } from 'tiger-openapi-core';
 import type {
-  TigerRuntimeOverrides,
+  TigerRuntimeOverrides as CoreTigerRuntimeOverrides,
   TigerSdkConfig,
   TigerWebSocketFactory,
-} from '@tiger-openapi/core';
+} from 'tiger-openapi-core';
 
-export interface NodeTigerRuntimeOverrides extends Omit<TigerRuntimeOverrides, 'createWebSocket'> {
+export type * from 'tiger-openapi-core';
+
+export interface TigerRuntimeOverrides extends Omit<CoreTigerRuntimeOverrides, 'createWebSocket'> {
   createWebSocket?: TigerWebSocketFactory;
 }
 
-export interface NodeTigerConfig extends Omit<TigerSdkConfig, 'runtime'> {
-  runtime?: NodeTigerRuntimeOverrides;
+export interface TigerClientConfig extends Omit<TigerSdkConfig, 'runtime'> {
+  runtime?: TigerRuntimeOverrides;
 }
 
 function resolveNodeWebSocket(factory?: TigerWebSocketFactory): TigerWebSocketFactory {
@@ -29,7 +31,7 @@ function resolveNodeWebSocket(factory?: TigerWebSocketFactory): TigerWebSocketFa
   };
 }
 
-function createNodeConfig(config: NodeTigerConfig): TigerSdkConfig {
+function createNodeConfig(config: TigerClientConfig): TigerSdkConfig {
   return {
     ...config,
     http: {
@@ -45,11 +47,11 @@ function createNodeConfig(config: NodeTigerConfig): TigerSdkConfig {
 export class TigerClient extends CoreTigerClient {
   static readonly version = VERSION;
 
-  constructor(config: NodeTigerConfig) {
+  constructor(config: TigerClientConfig) {
     super(createNodeConfig(config));
   }
 }
 
-export function createNodeTiger(config: NodeTigerConfig) {
+export function createTigerClient(config: TigerClientConfig) {
   return new TigerClient(config);
 }

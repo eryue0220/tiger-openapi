@@ -1,7 +1,7 @@
 {
-  "name": "@tiger-openapi/node",
+  "name": "tiger-openapi",
   "version": "0.1.0",
-  "description": "Node.js entry package for the Tiger OpenAPI SDK.",
+  "description": "Tiger OpenAPI SDK for Node.js and browsers.",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -12,6 +12,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
     }
   },
   "files": [
@@ -23,6 +27,6 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@tiger-openapi/core": "workspace:*"
+    "tiger-openapi-core": "workspace:*"
   }
 }

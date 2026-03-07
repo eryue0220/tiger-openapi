@@ -1,5 +1,5 @@
 {
-  "name": "@tiger-openapi/stream",
+  "name": "tiger-openapi-stream",
   "version": "0.1.0",
   "private": true,
   "description": "Realtime stream layer for the Tiger OpenAPI SDK.",
@@ -21,7 +21,7 @@
     "typecheck": "tsc -b ."
   },
   "dependencies": {
-    "@tiger-openapi/pb": "workspace:*",
-    "@tiger-openapi/shared": "workspace:*"
+    "tiger-openapi-pb": "workspace:*",
+    "tiger-openapi-shared": "workspace:*"
   }
 }

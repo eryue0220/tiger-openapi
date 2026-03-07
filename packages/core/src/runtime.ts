@@ -1,7 +1,6 @@
-import { noopLogger } from '@tiger-openapi/shared';
-
-import type { TigerWebSocketFactory } from '@tiger-openapi/stream';
-import type { TigerLogger } from '@tiger-openapi/shared';
+import { noopLogger } from 'tiger-openapi-shared';
+import type { TigerLogger } from 'tiger-openapi-shared';
+import type { TigerWebSocketFactory } from 'tiger-openapi-stream';
 
 export interface TigerRuntime {
   createWebSocket: TigerWebSocketFactory;

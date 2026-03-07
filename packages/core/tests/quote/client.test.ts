@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { createTigerClient } from '../../src/index.js';
 import { createQuoteClient } from '../../src/quote/index.js';
 
-describe('@tiger-openapi/core', () => {
+describe('tiger-openapi-core', () => {
   it('mounts quote methods on the client instance', async () => {
     const quoteClient = createQuoteClient(
       createTigerClient({

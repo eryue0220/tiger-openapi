@@ -1,5 +1,5 @@
-import { createHttpClient, TigerHttpClient } from '@tiger-openapi/http';
-import { createStreamClient, TigerStreamClient } from '@tiger-openapi/stream';
+import { createHttpClient, TigerHttpClient } from 'tiger-openapi-http';
+import { createStreamClient, TigerStreamClient } from 'tiger-openapi-stream';
 
 import { createAccountClient, AccountClient } from './account/index.js';
 import { createQuoteClient, QuoteClient } from './quote/index.js';

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { signParams } from '@tiger-openapi/shared';
+import { signParams } from 'tiger-openapi-shared';
 import type { TigerSdkConfig } from './types.js';
 
 export class TigerClientUtil {

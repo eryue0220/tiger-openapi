@@ -51,45 +51,39 @@ importers:
         specifier: ^4.0.18
         version: 4.0.18(@types/node@25.3.5)
 
-  packages/browser:
+  packages/client:
     dependencies:
-      '@tiger-openapi/core':
+      tiger-openapi-core:
         specifier: workspace:*
         version: link:../core
 
   packages/core:
     dependencies:
-      '@tiger-openapi/http':
-        specifier: workspace:*
-        version: link:../http
-      '@tiger-openapi/pb':
-        specifier: workspace:*
-        version: link:../pb
-      '@tiger-openapi/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tiger-openapi/stream':
-        specifier: workspace:*
-        version: link:../stream
       dayjs:
         specifier: ^1.11.19
         version: 1.11.19
+      tiger-openapi-http:
+        specifier: workspace:*
+        version: link:../http
+      tiger-openapi-pb:
+        specifier: workspace:*
+        version: link:../pb
+      tiger-openapi-shared:
+        specifier: workspace:*
+        version: link:../shared
+      tiger-openapi-stream:
+        specifier: workspace:*
+        version: link:../stream
 
   packages/http:
     dependencies:
-      '@tiger-openapi/shared':
+      tiger-openapi-shared:
         specifier: workspace:*
         version: link:../shared
 
-  packages/node:
-    dependencies:
-      '@tiger-openapi/core':
-        specifier: workspace:*
-        version: link:../core
-
   packages/pb:
     dependencies:
-      '@tiger-openapi/shared':
+      tiger-openapi-shared:
         specifier: workspace:*
         version: link:../shared
 
@@ -108,10 +102,10 @@ importers:
 
   packages/stream:
     dependencies:
-      '@tiger-openapi/pb':
+      tiger-openapi-pb:
         specifier: workspace:*
         version: link:../pb
-      '@tiger-openapi/shared':
+      tiger-openapi-shared:
         specifier: workspace:*
         version: link:../shared
 
