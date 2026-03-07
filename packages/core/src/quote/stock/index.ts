@@ -1,9 +1,2 @@
-import type { TigerClient } from '../../tiger-client.js';
-
-export class QuoteStockClient {
-  constructor(private readonly client: TigerClient) {}
-}
-
-export function createQuoteStockClient(client: TigerClient): QuoteStockClient {
-  return new QuoteStockClient(client);
-}
+export { createQuoteStockClient, QuoteStockClient } from './client.js';
+export type * from './types.js';

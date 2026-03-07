@@ -1,6 +1,6 @@
 import { getDeviceId } from '@tiger-openapi/shared';
 import type { TigerClient } from '../../tiger-client.js';
-import type { QuoteRequestOptions } from '../shared-types.js';
+import type { TigerRequestOptions } from '../../types.js';
 import type {
   GetKlineQuoteParams,
   GetKlineQuoteResponse,
@@ -13,7 +13,7 @@ import type {
 export class QuoteCommonClient {
   constructor(private readonly client: TigerClient) {}
 
-  async grabQuotePermission(options: QuoteRequestOptions = {}): Promise<QuotePermissionResponse> {
+  async grabQuotePermission(options: TigerRequestOptions = {}): Promise<QuotePermissionResponse> {
     const deviceId = await getDeviceId();
     const payload = this.client.buildDefaultParams('grab_quote_permission', {}, deviceId);
 
@@ -24,7 +24,7 @@ export class QuoteCommonClient {
     });
   }
 
-  getQuotePermission(options: QuoteRequestOptions = {}): Promise<void> {
+  getQuotePermission(options: TigerRequestOptions = {}): Promise<void> {
     return this.client.request({
       body: {},
       signal: options.signal,
@@ -34,7 +34,7 @@ export class QuoteCommonClient {
 
   getKlineQuote(
     params: GetKlineQuoteParams,
-    options: QuoteRequestOptions = {}
+    options: TigerRequestOptions = {}
   ): Promise<GetKlineQuoteResponse> {
     const payload = this.client.buildDefaultParams('kline_quota', params);
     return this.client.request({
