@@ -1,4 +1,4 @@
-import { TigerClient as CoreTigerClient } from '@tiger-openapi/core';
+import { TigerClient as CoreTigerClient, VERSION } from '@tiger-openapi/core';
 import type {
   TigerRuntimeOverrides,
   TigerSdkConfig,
@@ -46,6 +46,8 @@ function createBrowserConfig(config: BrowserTigerConfig): TigerSdkConfig {
 }
 
 export class TigerClient extends CoreTigerClient {
+  static readonly version = VERSION;
+
   constructor(config: BrowserTigerConfig) {
     super(createBrowserConfig(config));
   }

@@ -25,10 +25,10 @@ export interface TigerStreamConfig {
 }
 
 export interface TigerSdkConfig {
-  env: 'prod' | 'us' | 'sandbox';
   tigerId: string;
   account: string;
   privateKey: string;
+  env?: 'prod' | 'us' | 'sandbox';
   http?: TigerHttpConfig;
   stream?: TigerStreamConfig;
   pb?: {

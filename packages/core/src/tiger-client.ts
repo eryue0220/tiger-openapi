@@ -1,19 +1,19 @@
 import { createHttpClient, TigerHttpClient } from '@tiger-openapi/http';
-import { createStreamClient } from '@tiger-openapi/stream';
+import { createStreamClient, TigerStreamClient } from '@tiger-openapi/stream';
 
-import { createAccountClient } from './account/index.js';
-import { createQuoteClient } from './quote/index.js';
+import { createAccountClient, AccountClient } from './account/index.js';
+import { createQuoteClient, QuoteClient } from './quote/index.js';
 import { resolveRuntime } from './runtime.js';
-import { createTradingClient } from './trading/index.js';
+import { createTradingClient, TradingClient } from './trading/index.js';
 import type { TigerApiRequest, TigerSdkConfig, TigerSubscription } from './types.js';
 import { TigerClientUtil } from './tiger-client-util.js';
 
 export class TigerClient extends TigerClientUtil {
   private readonly http: TigerHttpClient;
-  readonly stream;
-  readonly quote;
-  readonly trading;
-  readonly account;
+  readonly stream: TigerStreamClient | undefined;
+  readonly account: AccountClient;
+  readonly quote: QuoteClient;
+  readonly trading: TradingClient;
 
   constructor(config: TigerSdkConfig) {
     super(config);
