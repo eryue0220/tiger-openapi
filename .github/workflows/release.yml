@@ -4,20 +4,20 @@ on:
   push:
     branches:
       - main
-      - master
 
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-
 jobs:
   release:
+    name: Release packages
+    if: github.repository == 'eryue0220/tiger-openapi'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v6

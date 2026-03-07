@@ -1,9 +1,7 @@
 import type { TigerClient } from '../../tiger-client.js';
 
 export class QuoteFundsClient {
-  constructor(private readonly client: TigerClient) {
-    console.log('Not implemented');
-  }
+  constructor(private readonly client: TigerClient) {}
 }
 
 export function createQuoteFundsClient(client: TigerClient): QuoteFundsClient {

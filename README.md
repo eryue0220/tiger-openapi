@@ -23,13 +23,27 @@ It also supports multiple runtime targets at the architecture level:
 ## Installation
 
 ```bash
+# via pnpm
 pnpm add @tiger-openapi/node
+
+# via npm
+npm i @tiger-openapi/node
+
+# via yarn
+yarn add @tiger-openapi/node
 ```
 
 or
 
 ```bash
+# via pnpm
 pnpm add @tiger-openapi/browser
+
+# via npm
+npm i @tiger-openapi/browser
+
+# via yarn
+yarn add @tiger-openapi/browser
 ```
 
 ## Quick Start
@@ -62,7 +76,25 @@ const tiger = new TigerClient({
 
 ## API Overview
 
-## Monorepo Layout
+## Quote
+
+### Common
+
+### Crypto
+
+### Funds
+
+### Futures
+
+### Options
+
+### Stock
+
+### Warrants
+
+## Accounts
+
+## Trading
 
 ## References
 
