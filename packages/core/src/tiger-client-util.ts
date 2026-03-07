@@ -4,7 +4,7 @@ import type { TigerSdkConfig } from './types.js';
 
 export class TigerClientUtil {
   protected readonly DEFAULT_CONFIG = {
-    env: 'prod',
+    env: 'prod' as const,
     http: {
       retry: {
         maxAttempts: 3,
@@ -27,6 +27,7 @@ export class TigerClientUtil {
     return {
       ...this.DEFAULT_CONFIG,
       ...this.config,
+      env: this.config.env ?? this.DEFAULT_CONFIG.env,
       http: {
         retry: {
           ...this.DEFAULT_CONFIG.http.retry,

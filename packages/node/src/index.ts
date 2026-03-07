@@ -10,9 +10,7 @@ export interface NodeTigerRuntimeOverrides extends Omit<TigerRuntimeOverrides, '
 }
 
 export interface NodeTigerConfig extends Omit<TigerSdkConfig, 'runtime'> {
-  http: NonNullable<TigerSdkConfig['http']>;
   runtime?: NodeTigerRuntimeOverrides;
-  userAgent?: string;
 }
 
 function resolveNodeWebSocket(factory?: TigerWebSocketFactory): TigerWebSocketFactory {
@@ -31,20 +29,11 @@ function resolveNodeWebSocket(factory?: TigerWebSocketFactory): TigerWebSocketFa
   };
 }
 
-function buildNodeHeaders(config: NodeTigerConfig): Headers {
-  const headers = new Headers(config.http.defaultHeaders);
-  if (!headers.has('user-agent')) {
-    headers.set('user-agent', config.userAgent ?? `tiger-openapi-node/${VERSION}`);
-  }
-  return headers;
-}
-
 function createNodeConfig(config: NodeTigerConfig): TigerSdkConfig {
   return {
     ...config,
     http: {
       ...config.http,
-      defaultHeaders: buildNodeHeaders(config),
     },
     runtime: {
       ...config.runtime,
@@ -54,6 +43,8 @@ function createNodeConfig(config: NodeTigerConfig): TigerSdkConfig {
 }
 
 export class TigerClient extends CoreTigerClient {
+  static readonly version = VERSION;
+
   constructor(config: NodeTigerConfig) {
     super(createNodeConfig(config));
   }
