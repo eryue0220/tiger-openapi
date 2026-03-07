@@ -44,7 +44,7 @@ export class TigerClientUtil {
     };
   }
 
-  buildDefaultParams(method: string, bizContent: unknown = {}, deviceId?: string) {
+  async buildDefaultParams(method: string, bizContent: unknown = {}, deviceId?: string) {
     const params = {
       tigerId: this.config.tigerId,
       account: this.config.account,
@@ -61,7 +61,7 @@ export class TigerClientUtil {
 
     return {
       ...params,
-      sign: signParams(params),
+      sign: await signParams(params),
     };
   }
 
