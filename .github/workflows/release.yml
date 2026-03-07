@@ -4,20 +4,20 @@ on:
   push:
     branches:
       - main
-      - master
 
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-
 jobs:
   release:
+    name: Release packages
+    if: github.repository == 'eryue0220/tiger-openapi'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v6
@@ -48,8 +48,8 @@ jobs:
         with:
           version: pnpm version-packages
           publish: pnpm release
-          commit: 'chore: release packages'
-          title: 'chore: release packages'
+          commit: "chore: release packages"
+          title: "chore: release packages"
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
