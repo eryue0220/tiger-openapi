@@ -73,6 +73,6 @@ export class TigerClient extends TigerClientUtil {
   }
 }
 
-export function createTiger(config: TigerSdkConfig): TigerClient {
+export function createTigerClient(config: TigerSdkConfig): TigerClient {
   return new TigerClient(config);
 }
