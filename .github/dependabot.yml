@@ -30,6 +30,8 @@ updates:
       typescript:
         patterns:
           - 'typescript'
+          - 'typescript-eslint'
+          - '@types/*'
 
       eslint:
         patterns:
