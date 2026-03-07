@@ -51,11 +51,7 @@ importers:
         specifier: ^4.0.18
         version: 4.0.18(@types/node@25.3.5)
 
-  packages/client:
-    dependencies:
-      tiger-openapi-core:
-        specifier: workspace:*
-        version: link:../core
+  packages/client: {}
 
   packages/core:
     dependencies:
