@@ -1,4 +1,4 @@
-# tiger-openapi
+# tiger-openapi &middot; [![GitHub license](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green)](https://github.com/eryue0220/tiger-openapi/blob/main/LICENSE)
 
 TypeScript monorepo for building a Tiger OpenAPI SDK across multiple runtimes and deployment environments.
 
@@ -16,7 +16,7 @@ It also supports multiple runtime targets at the architecture level:
 ---
 
 > [!IMPORTANT]  
-> This is not the official NodeJS SDK
+> This is not the official NodeJS SDK, and currently it's still under development
 ---
 
 ## Installation
