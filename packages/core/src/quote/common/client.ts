@@ -15,7 +15,7 @@ export class QuoteCommonClient {
 
   async grabQuotePermission(options: TigerRequestOptions = {}): Promise<QuotePermissionResponse> {
     const deviceId = await getDeviceId();
-    const payload = this.client.buildDefaultParams('grab_quote_permission', {}, deviceId);
+    const payload = await this.client.buildDefaultParams('grab_quote_permission', {}, deviceId);
 
     return this.client.request({
       body: payload,
@@ -32,11 +32,11 @@ export class QuoteCommonClient {
     });
   }
 
-  getKlineQuote(
+  async getKlineQuote(
     params: GetKlineQuoteParams,
     options: TigerRequestOptions = {}
   ): Promise<GetKlineQuoteResponse> {
-    const payload = this.client.buildDefaultParams('kline_quota', params);
+    const payload = await this.client.buildDefaultParams('kline_quota', params);
     return this.client.request({
       body: payload,
       signal: options.signal,

@@ -88,17 +88,10 @@ importers:
         version: link:../shared
 
   packages/shared:
-    dependencies:
-      node-forge:
-        specifier: ^1.3.3
-        version: 1.3.3
     devDependencies:
       '@types/node':
         specifier: ^25.3.5
         version: 25.3.5
-      '@types/node-forge':
-        specifier: ^1.3.14
-        version: 1.3.14
 
   packages/stream:
     dependencies:
