@@ -1,5 +1,12 @@
 # tiger-openapi
 
+## 0.1.2
+
+### Patch Changes
+
+- 97b355b: fix install deps
+- 97b355b: infra update for publish
+
 ## 0.1.1
 
 ### Patch Changes
