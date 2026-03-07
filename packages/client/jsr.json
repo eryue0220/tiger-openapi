@@ -1,6 +1,6 @@
 {
   "$schema": "https://jsr.io/schema/config-file.v1.json",
-  "name": "tiger-openapi",
+  "name": "@eryue0220/tiger-openapi",
   "version": "0.1.0",
   "exports": {
     ".": "./dist/index.js",

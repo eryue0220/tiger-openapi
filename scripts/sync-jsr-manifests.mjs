@@ -33,9 +33,10 @@ function syncManifest(packageDir) {
   }
 
   const jsrJson = readJson(jsrJsonPath);
+  const jsrName = packageJson.jsrName ?? packageJson.name;
   const nextJsrJson = {
     ...jsrJson,
-    name: packageJson.name,
+    name: jsrName,
     version: packageJson.version,
   };
 
