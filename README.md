@@ -17,6 +17,8 @@ It also supports multiple runtime targets at the architecture level:
 
 > [!IMPORTANT]  
 > This is not the official NodeJS SDK, and currently it's still under development.
+>
+> If any bug, please open an [issue](https://github.com/eryue0220/tiger-openapi/issues)
 
 ---
 
@@ -171,5 +173,3 @@ This is still development.
 ## References
 
 - [Tiger OpenAPI Docs](https://docs-en.itigerup.com/docs/overview)
-
-## Development
