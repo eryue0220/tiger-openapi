@@ -14,7 +14,7 @@ jobs:
     name: Detect release changes
     runs-on: ubuntu-latest
     outputs:
-      should_run: ${{ steps.detect.outputs.should_run }}
+      mode: ${{ steps.detect.outputs.mode }}
 
     steps:
       - uses: actions/checkout@v6
@@ -25,27 +25,26 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ github.event.head_commit.message }}" == "chore: release packages" ]]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "mode=publish" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           changed_files="$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}")"
 
           if echo "$changed_files" | grep -Eq '^\.changeset/[^/]+\.md$'; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "mode=version" >> "$GITHUB_OUTPUT"
           else
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "mode=skip" >> "$GITHUB_OUTPUT"
           fi
 
   release:
     name: Release packages
     needs: should-release
-    if: github.repository == 'eryue0220/tiger-openapi' && needs.should-release.outputs.should_run == 'true'
+    if: github.repository == 'eryue0220/tiger-openapi' && needs.should-release.outputs.mode != 'skip'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       id-token: write
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v6
@@ -68,20 +67,34 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Version packages
+        if: needs.should-release.outputs.mode == 'version'
+        run: pnpm version-packages
+
+      - name: Commit release changes
+        if: needs.should-release.outputs.mode == 'version'
+        shell: bash
+        run: |
+          if [[ -z "$(git status --porcelain)" ]]; then
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m 'chore: release packages'
+          git push origin HEAD:main
+
       - name: Validate JSR manifests
+        if: needs.should-release.outputs.mode == 'publish'
         run: pnpm jsr:check
 
-      - name: Build packages
-        run: pnpm build
+      - name: Build publishable package and workspace dependencies
+        if: needs.should-release.outputs.mode == 'publish'
+        run: pnpm turbo run build --filter=tiger-openapi --force
 
-      - name: Create release PR or publish packages
-        uses: changesets/action@v1
-        with:
-          version: pnpm version-packages
-          publish: pnpm release
-          commit: 'chore: release packages'
-          title: 'chore: release packages'
-          createGithubReleases: true
+      - name: Publish packages
+        if: needs.should-release.outputs.mode == 'publish'
+        run: pnpm release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
