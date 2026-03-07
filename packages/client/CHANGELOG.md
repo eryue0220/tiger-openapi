@@ -1,5 +1,11 @@
 # tiger-openapi
 
+## 0.1.3
+
+### Patch Changes
+
+- 9dfe869: Update crypto method
+
 ## 0.1.2
 
 ### Patch Changes
