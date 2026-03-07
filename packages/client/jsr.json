@@ -7,14 +7,8 @@
     ".": "./dist/index.js",
     "./browser": "./dist/browser.js"
   },
-  "exclude": [
-    "src/**",
-    "tests/**"
-  ],
+  "exclude": ["src/**", "tests/**"],
   "publish": {
-    "exclude": [
-      "!dist",
-      "!dist/**"
-    ]
+    "exclude": ["!dist", "!dist/**"]
   }
 }
