@@ -103,7 +103,9 @@ await tiger.quote.common.grabQuotePermission();
 
 await tiger.quote.common.getQuotePermission();
 
-await tiger.quote.common.getKlineQuote({ /* */ });
+await tiger.quote.common.getKlineQuote({
+  /* */
+});
 ```
 
 ### Crypto
@@ -123,9 +125,13 @@ This is still development.
 Please ensure you have permission to enable query options before you call the API.
 
 ```typescript
-await tiger.quote.options.getOptionExpirations({ /* */ });
+await tiger.quote.options.getOptionExpirations({
+  /* */
+});
 
-await tiger.quote.options.getOptionBriefs({ /* */ });
+await tiger.quote.options.getOptionBriefs({
+  /* */
+});
 ```
 
 For more details about Options, please check the [document](https://docs-en.itigerup.com/docs/quote-option).
@@ -135,9 +141,13 @@ For more details about Options, please check the [document](https://docs-en.itig
 Please ensure you have permission to enable query stock before you call the API.
 
 ```typescript
-await tiger.quote.stock.getMarketStatus({ /* */ });
+await tiger.quote.stock.getMarketStatus({
+  /* */
+});
 
-await tiger.quote.stock.getTradingCalendar({ /* */ });
+await tiger.quote.stock.getTradingCalendar({
+  /* */
+});
 ```
 
 For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-stock) about stock.
