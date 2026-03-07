@@ -27,5 +27,8 @@
     "build": "tsup && node ./scripts/add-jsr-self-types.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "tiger-openapi-core": "workspace:*"
   }
 }
