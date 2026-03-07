@@ -51,7 +51,11 @@ importers:
         specifier: ^2.1.6
         version: 2.1.9(@types/node@22.19.15)
 
-  packages/browser: {}
+  packages/browser:
+    dependencies:
+      '@tiger-openapi/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/core:
     dependencies:
@@ -77,7 +81,11 @@ importers:
         specifier: workspace:*
         version: link:../shared
 
-  packages/node: {}
+  packages/node:
+    dependencies:
+      '@tiger-openapi/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/pb:
     dependencies:
