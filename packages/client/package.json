@@ -1,5 +1,6 @@
 {
   "name": "tiger-openapi",
+  "jsrName": "@eryue0220/tiger-openapi",
   "version": "0.1.0",
   "description": "Tiger OpenAPI SDK for Node.js and browsers.",
   "type": "module",
@@ -25,8 +26,5 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
-  },
-  "dependencies": {
-    "tiger-openapi-core": "workspace:*"
   }
 }
