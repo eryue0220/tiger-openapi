@@ -1,22 +1,18 @@
-import { TigerClient as CoreTigerClient, VERSION } from '@tiger-openapi/core';
+import { TigerClient as CoreTigerClient, VERSION } from 'tiger-openapi-core';
 import type {
-  TigerRuntimeOverrides,
+  TigerRuntimeOverrides as CoreTigerRuntimeOverrides,
   TigerSdkConfig,
   TigerWebSocketFactory,
-} from '@tiger-openapi/core';
+} from 'tiger-openapi-core';
 
-export * from '@tiger-openapi/core';
+export type * from 'tiger-openapi-core';
 
-export interface BrowserTigerRuntimeOverrides extends Omit<
-  TigerRuntimeOverrides,
-  'createWebSocket'
-> {
+export interface TigerRuntimeOverrides extends Omit<CoreTigerRuntimeOverrides, 'createWebSocket'> {
   createWebSocket?: TigerWebSocketFactory;
 }
 
-export interface BrowserTigerConfig extends Omit<TigerSdkConfig, 'runtime'> {
-  http: NonNullable<TigerSdkConfig['http']>;
-  runtime?: BrowserTigerRuntimeOverrides;
+export interface TigerClientConfig extends Omit<TigerSdkConfig, 'runtime'> {
+  runtime?: TigerRuntimeOverrides;
 }
 
 function resolveBrowserWebSocket(factory?: TigerWebSocketFactory): TigerWebSocketFactory {
@@ -35,7 +31,7 @@ function resolveBrowserWebSocket(factory?: TigerWebSocketFactory): TigerWebSocke
   };
 }
 
-function createBrowserConfig(config: BrowserTigerConfig): TigerSdkConfig {
+function createBrowserConfig(config: TigerClientConfig): TigerSdkConfig {
   return {
     ...config,
     runtime: {
@@ -48,11 +44,11 @@ function createBrowserConfig(config: BrowserTigerConfig): TigerSdkConfig {
 export class TigerClient extends CoreTigerClient {
   static readonly version = VERSION;
 
-  constructor(config: BrowserTigerConfig) {
+  constructor(config: TigerClientConfig) {
     super(createBrowserConfig(config));
   }
 }
 
-export function createBrowserTiger(config: BrowserTigerConfig) {
+export function createTigerClient(config: TigerClientConfig) {
   return new TigerClient(config);
 }

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { PbCodecRegistry, decodeTickPayload } from '../src/index.js';
 
-describe('@tiger-openapi/pb', () => {
+describe('tiger-openapi-pb', () => {
   it('decodes envelopes via a registered codec', () => {
     const registry = new PbCodecRegistry().register('quote', {
       decode(payload) {

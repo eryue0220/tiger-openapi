@@ -1,4 +1,4 @@
-import { createBackoff, noopLogger, sleep, TigerStreamError } from '@tiger-openapi/shared';
+import { createBackoff, noopLogger, sleep, TigerStreamError } from 'tiger-openapi-shared';
 
 import type {
   EncodedStreamMessage,

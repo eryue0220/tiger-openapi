@@ -12,8 +12,8 @@
     "../core/package.json",
     "../http/src/**/*.ts",
     "../pb/src/**/*.ts",
-    "../stream/src/**/*.ts",
-    "../shared/src/**/*.ts"
+    "../shared/src/**/*.ts",
+    "../stream/src/**/*.ts"
   ],
   "exclude": ["dist", "node_modules", "../**/dist/**", "../**/tests/**"]
 }

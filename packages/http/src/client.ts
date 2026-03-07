@@ -1,4 +1,4 @@
-import { TigerHttpError, createBackoff, sleep, withTimeoutSignal } from '@tiger-openapi/shared';
+import { TigerHttpError, createBackoff, sleep, withTimeoutSignal } from 'tiger-openapi-shared';
 
 import type {
   RetryDecisionContext,
