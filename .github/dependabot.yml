@@ -30,3 +30,25 @@ updates:
       typescript:
         patterns:
           - 'typescript'
+          - 'typescript-eslint'
+          - '@types/*'
+
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-config-prettier'
+          - 'eslint-plugin-prettier'
+          - '@eslint/*'
+          - 'globals'
+
+      prettier:
+        patterns:
+          - 'prettier'
+
+      turbo:
+        patterns:
+          - 'turbo'
+
+      vitest:
+        patterns:
+          - 'vitest'
