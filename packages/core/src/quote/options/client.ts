@@ -1,5 +1,6 @@
+import { getDeviceId } from 'tiger-openapi-shared';
 import type { TigerClient } from '../../tiger-client.js';
-import type { TigerRequestOptions } from '../../types.js';
+import type { TigerRequestOptions, TigerApiResponse } from '../../types.js';
 import type {
   OptionAnalysisParams,
   OptionAnalysisResponse,
@@ -27,9 +28,10 @@ export class QuoteOptionsClient {
   async getOptionExpirations(
     params: OptionExpirationsParams,
     options: TigerRequestOptions = {}
-  ): Promise<OptionExpirationsResponse> {
-    const method = 'option_expiration';
-    const payload = await this.client.buildDefaultParams(method, params);
+  ): Promise<TigerApiResponse<Array<OptionExpirationsResponse>>> {
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams('option_expiration', params, deviceId);
+
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -41,8 +43,8 @@ export class QuoteOptionsClient {
     params: OptionBriefsParams,
     options: TigerRequestOptions = {}
   ): Promise<OptionBriefsResponse> {
-    const method = 'option_brief';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams('option_brief', params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -53,9 +55,9 @@ export class QuoteOptionsClient {
   async getOptionChain(
     params: OptionChainParams,
     options: TigerRequestOptions = {}
-  ): Promise<OptionChainResponse> {
-    const method = 'option_chain';
-    const payload = await this.client.buildDefaultParams(method, params);
+  ): Promise<TigerApiResponse<Array<OptionChainResponse>>> {
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams('option_chain', params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -67,8 +69,8 @@ export class QuoteOptionsClient {
     params: OptionDepthParams,
     options: TigerRequestOptions = {}
   ): Promise<OptionDepthResponse> {
-    const method = 'option_depth';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams('option_depth', params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -79,9 +81,9 @@ export class QuoteOptionsClient {
   async getOptionTradeTicks(
     params: OptionTradeTicksParams,
     options: TigerRequestOptions = {}
-  ): Promise<OptionTradeTicksResponse> {
-    const method = 'option_trade_tick';
-    const payload = await this.client.buildDefaultParams(method, params);
+  ): Promise<TigerApiResponse<Array<OptionTradeTicksResponse>>> {
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams('option_trade_tick', params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -92,7 +94,7 @@ export class QuoteOptionsClient {
   async getOptionBars(
     params: OptionBarsParams,
     options: TigerRequestOptions = {}
-  ): Promise<OptionBarsResponse> {
+  ): Promise<TigerApiResponse<Array<OptionBarsResponse>>> {
     const method = 'option_kline';
     const payload = await this.client.buildDefaultParams(method, params);
     return this.client.request({
@@ -105,9 +107,8 @@ export class QuoteOptionsClient {
   async getOptionTimeline(
     params: OptionTimelineParams,
     options: TigerRequestOptions = {}
-  ): Promise<OptionTimelineResponse> {
-    const method = 'option_timeline';
-    const payload = await this.client.buildDefaultParams(method, params);
+  ): Promise<TigerApiResponse<OptionTimelineResponse>> {
+    const payload = await this.client.buildDefaultParams('option_timeline', params);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -119,8 +120,7 @@ export class QuoteOptionsClient {
     params: OptionSymbolsParams = {},
     options: TigerRequestOptions = {}
   ): Promise<OptionSymbolsResponse> {
-    const method = 'all_hk_option_symbols';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const payload = await this.client.buildDefaultParams('all_hk_option_symbols', params);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -131,9 +131,9 @@ export class QuoteOptionsClient {
   async getOptionAnalysis(
     params: OptionAnalysisParams,
     options: TigerRequestOptions = {}
-  ): Promise<OptionAnalysisResponse> {
-    const method = 'option_analysis';
-    const payload = await this.client.buildDefaultParams(method, params);
+  ): Promise<TigerApiResponse<OptionAnalysisResponse>> {
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams('option_analysis', params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,

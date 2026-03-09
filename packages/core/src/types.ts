@@ -1,9 +1,13 @@
-import type { RetryPolicy, TigerRequest } from 'tiger-openapi-http';
+import type { RetryPolicy, TigerRequest, TigerResponse } from 'tiger-openapi-http';
 import type { PbCodecRegistry } from 'tiger-openapi-pb';
 import type { StreamDecoder, StreamMessage } from 'tiger-openapi-stream';
 
 import type { TigerRuntimeOverrides } from './runtime.js';
 export type { TigerRuntimeOverrides } from './runtime.js';
+
+export type TigerMarket = 'US' | 'HK';
+
+export type TigerOptionRight = 'PUT' | 'CALL';
 
 export interface TigerRequestOptions {
   signal?: AbortSignal;
@@ -43,3 +47,5 @@ export interface TigerSubscription {
 }
 
 export type TigerApiRequest<TBody = unknown> = TigerRequest<TBody>;
+
+export type TigerApiResponse<TBody = unknown> = TigerResponse<TBody>;

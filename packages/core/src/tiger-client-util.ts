@@ -46,17 +46,17 @@ export class TigerClientUtil {
 
   async buildDefaultParams(method: string, bizContent: unknown = {}, deviceId?: string) {
     const params = {
-      tigerId: this.config.tigerId,
+      tiger_id: this.config.tigerId,
       account: this.config.account,
       privateKey: this.config.privateKey,
       // This is version of the Tiger OpenAPI.
       version: '3.0',
       charset: 'UTF-8',
-      sign_type: 'RSA-SHA1',
+      sign_type: 'RSA',
       timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      bizContent: JSON.stringify(bizContent),
+      biz_content: JSON.stringify(bizContent),
       method,
-      deviceId,
+      device_id: deviceId,
     };
 
     return {
