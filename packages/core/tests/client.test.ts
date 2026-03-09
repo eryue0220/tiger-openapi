@@ -11,7 +11,7 @@ describe('tiger-openapi-core', () => {
     });
 
     expect(client.quote).toBeDefined();
-    expect(client.trading).toBeDefined();
+    expect(client.order).toBeDefined();
     expect(client.account).toBeDefined();
   });
 });
