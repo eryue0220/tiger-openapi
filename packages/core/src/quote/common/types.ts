@@ -11,7 +11,7 @@ export type QuotePermissionName =
 
 export interface QuotePermissionResponse {
   name: QuotePermissionName;
-  expires_at: string | number;
+  expireAt: number;
 }
 
 export interface GetKlineQuoteParams {
@@ -21,6 +21,6 @@ export interface GetKlineQuoteParams {
 export interface GetKlineQuoteResponse {
   used: number;
   remain: number;
-  method: string;
+  method: 'kline' | 'future_kline' | 'option_kline';
   symbol_details: Array<{ code: string; last_request_timestamp: string }>;
 }

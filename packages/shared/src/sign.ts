@@ -15,11 +15,23 @@ function buildSignString(params: Record<string, unknown>): string {
 
 function normalizePrivateKey(raw: string): string {
   if (!raw) return '';
-  if (raw.includes('BEGIN')) return raw;
-  return `-----BEGIN RSA PRIVATE KEY-----\n${raw}\n-----END RSA PRIVATE KEY-----`;
+
+  let normalized = raw.trim();
+  if (
+    (normalized.startsWith('"') && normalized.endsWith('"')) ||
+    (normalized.startsWith("'") && normalized.endsWith("'"))
+  ) {
+    normalized = normalized.slice(1, -1);
+  }
+
+  // Common env representation stores PEM newlines as literal "\n".
+  return normalized
+    .replace(/\\r\\n/g, '\n')
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r');
 }
 
-function concatBytes(...chunks: Uint8Array[]): Uint8Array {
+function concatBytes(...chunks: Array<Uint8Array>): Uint8Array {
   const length = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
   const out = new Uint8Array(length);
   let offset = 0;
@@ -35,8 +47,9 @@ function derLength(length: number): Uint8Array {
     return new Uint8Array([length]);
   }
 
-  const bytes: number[] = [];
+  const bytes: Array<number> = [];
   let value = length;
+
   while (value > 0) {
     bytes.unshift(value & 0xff);
     value >>= 8;
@@ -104,20 +117,26 @@ async function importPrivateKey(privateKeyPem: string): Promise<CryptoKey> {
     throw new Error('Web Crypto API is not available in the current runtime.');
   }
 
-  const isPkcs8 = privateKeyPem.includes('BEGIN PRIVATE KEY');
   const der = pemToDer(privateKeyPem);
-  const pkcs8Der = isPkcs8 ? der : toPkcs8FromPkcs1(der);
+  const algorithm = {
+    name: 'RSASSA-PKCS1-v1_5',
+    hash: 'SHA-1',
+  } as const;
 
-  return subtle.importKey(
-    'pkcs8',
-    derBuffer(pkcs8Der),
-    {
-      name: 'RSASSA-PKCS1-v1_5',
-      hash: 'SHA-1',
-    },
-    false,
-    ['sign']
-  );
+  try {
+    return await subtle.importKey('pkcs8', derBuffer(der), algorithm, false, ['sign']);
+  } catch {
+    const pkcs8Der = toPkcs8FromPkcs1(der);
+
+    try {
+      return await subtle.importKey('pkcs8', derBuffer(pkcs8Der), algorithm, false, ['sign']);
+    } catch (pkcs1Error) {
+      throw new Error(
+        'Failed to import privateKey. Expected PKCS#8 or PKCS#1 PEM/DER (base64) data.',
+        { cause: pkcs1Error }
+      );
+    }
+  }
 }
 
 export async function signParams(params: Record<string, string | undefined>): Promise<string> {

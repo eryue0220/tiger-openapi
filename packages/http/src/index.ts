@@ -4,4 +4,5 @@ export type {
   RetryPolicy,
   TigerHttpClientOptions,
   TigerRequest,
+  TigerResponse,
 } from './types.js';

@@ -5,6 +5,7 @@ import { createQuoteCryptoClient, QuoteCryptoClient } from './crypto/index.js';
 import { createQuoteFundsClient, QuoteFundsClient } from './funds/index.js';
 import { createQuoteFuturesClient, QuoteFuturesClient } from './futures/index.js';
 import { createQuoteOptionsClient, QuoteOptionsClient } from './options/index.js';
+import { createQuoteScannerClient, QuoteScannerClient } from './scanner/index.js';
 import { createQuoteStockClient, QuoteStockClient } from './stock/index.js';
 import { createQuoteWarrantsClient, QuoteWarrantsClient } from './warrants/index.js';
 
@@ -14,6 +15,7 @@ export class QuoteClient {
   readonly funds: QuoteFundsClient;
   readonly futures: QuoteFuturesClient;
   readonly options: QuoteOptionsClient;
+  readonly scanner: QuoteScannerClient;
   readonly stock: QuoteStockClient;
   readonly warrants: QuoteWarrantsClient;
 
@@ -23,6 +25,7 @@ export class QuoteClient {
     this.funds = createQuoteFundsClient(client);
     this.futures = createQuoteFuturesClient(client);
     this.options = createQuoteOptionsClient(client);
+    this.scanner = createQuoteScannerClient(client);
     this.stock = createQuoteStockClient(client);
     this.warrants = createQuoteWarrantsClient(client);
   }
