@@ -12,15 +12,12 @@ describe('signParams', () => {
     const importKey = vi.fn(async () => ({}) as CryptoKey);
     const sign = vi.fn(async () => new Uint8Array([1, 2, 3]).buffer);
 
-    vi.stubGlobal(
-      'crypto',
-      {
-        subtle: {
-          importKey,
-          sign,
-        },
-      } as unknown as Crypto
-    );
+    vi.stubGlobal('crypto', {
+      subtle: {
+        importKey,
+        sign,
+      },
+    } as unknown as Crypto);
 
     await signParams({
       tigerId: '1',
@@ -40,15 +37,12 @@ describe('signParams', () => {
       .mockResolvedValueOnce({} as CryptoKey);
     const sign = vi.fn(async () => new Uint8Array([1, 2, 3]).buffer);
 
-    vi.stubGlobal(
-      'crypto',
-      {
-        subtle: {
-          importKey,
-          sign,
-        },
-      } as unknown as Crypto
-    );
+    vi.stubGlobal('crypto', {
+      subtle: {
+        importKey,
+        sign,
+      },
+    } as unknown as Crypto);
 
     await signParams({
       tigerId: '1',
@@ -59,26 +53,22 @@ describe('signParams', () => {
     expect(importKey).toHaveBeenCalledTimes(2);
     const firstTry = importKey.mock.calls[0]?.[1] as ArrayBuffer;
     const secondTry = importKey.mock.calls[1]?.[1] as ArrayBuffer;
-    expect(new Uint8Array(secondTry).byteLength).toBeGreaterThan(new Uint8Array(firstTry).byteLength);
+    expect(new Uint8Array(secondTry).byteLength).toBeGreaterThan(
+      new Uint8Array(firstTry).byteLength
+    );
   });
 
   it('throws with cause set to the PKCS#1 conversion failure when both fail', async () => {
     const pkcs8Error = new DOMException('PKCS#8 failed', 'DataError');
     const pkcs1Error = new DOMException('PKCS#1 conversion failed', 'DataError');
-    const importKey = vi
-      .fn()
-      .mockRejectedValueOnce(pkcs8Error)
-      .mockRejectedValueOnce(pkcs1Error);
+    const importKey = vi.fn().mockRejectedValueOnce(pkcs8Error).mockRejectedValueOnce(pkcs1Error);
 
-    vi.stubGlobal(
-      'crypto',
-      {
-        subtle: {
-          importKey,
-          sign: vi.fn(),
-        },
-      } as unknown as Crypto
-    );
+    vi.stubGlobal('crypto', {
+      subtle: {
+        importKey,
+        sign: vi.fn(),
+      },
+    } as unknown as Crypto);
 
     const err = await signParams({
       tigerId: '1',
