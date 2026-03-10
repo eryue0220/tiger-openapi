@@ -5,7 +5,7 @@ import type {
   CancelOrderResponse,
   CancelledOrdersParams,
   CancelledOrdersResponse,
-  ContractParams,
+  ContractParam,
   ContractResponse,
   ContractsParams,
   ContractsResponse,
@@ -16,7 +16,6 @@ import type {
   OpenOrdersParams,
   OpenOrdersResponse,
   OrderParams,
-  OrderResponse,
   OrdersParams,
   OrdersResponse,
   TransactionsParams,
@@ -33,7 +32,7 @@ export class OrderClient {
   constructor(private readonly client: TigerClient) {}
 
   async getContract(
-    params: ContractParams,
+    params: ContractParam,
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<ContractResponse>> {
     const method = 'contract';
@@ -126,7 +125,7 @@ export class OrderClient {
   async getOrder(
     params: OrderParams,
     options: TigerRequestOptions = {}
-  ): Promise<TigerApiResponse<OrderResponse>> {
+  ): Promise<TigerApiResponse<void>> {
     const method = 'orders';
     const payload = await this.client.buildDefaultParams(method, params);
     return this.client.request({

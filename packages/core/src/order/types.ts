@@ -1,6 +1,6 @@
 import type { TigerMarket } from '../types.js';
 
-export interface ContractsParams {
+export interface ContractParam {
   symbol: string | string[];
   sec_type?: string;
   currency?: string;
@@ -8,15 +8,53 @@ export interface ContractsParams {
   lang?: string;
 }
 
-export interface ContractParams {
+export interface ContractResponse {
+  contractId: number;
+  identifier: string;
   symbol: string;
-  sec_type?: string;
-  currency?: string;
-  exchange?: string;
-  expiry?: string;
-  strike?: string | number;
-  put_call?: string;
-  lang?: string;
+  secType: string;
+  exchange: string;
+  market: string;
+  primaryExchange: string;
+  currency: string;
+  localSymbol: string;
+  tradingClass: string;
+  name: string;
+  status: number;
+  tradeable: boolean;
+  minTick: number;
+  marginable: boolean;
+  shortFeeRate: number;
+  shortable: boolean;
+  shortableCount: number;
+}
+
+export interface ContractsParams {
+  symbols: string[];
+  sec_type: string;
+}
+
+export interface ContractsResponse {
+  items: Array<{
+    contractId: number;
+    identifier: string;
+    symbol: string;
+    secType: string;
+    exchange: string;
+    market: string;
+    primaryExchange: string;
+    currency: string;
+    localSymbol: string;
+    tradingClass: string;
+    name: string;
+    status: number;
+    tradeable: boolean;
+    minTick: number;
+    marginable: boolean;
+    shortFeeRate: number;
+    shortable: boolean;
+    shortableCount: number;
+  }>;
 }
 
 export interface DerivativeContractsParams {
@@ -26,7 +64,69 @@ export interface DerivativeContractsParams {
   lang?: string;
 }
 
-export interface TradingTickSize {
+// TODO: Fixed
+export type DerivativeContractsResponse = unknown;
+
+export interface OrdersParams {
+  account?: string;
+  sec_type?: string;
+  market?: TigerMarket | 'ALL' | string;
+  symbol?: string;
+  start_date?: number | string;
+  end_date?: number | string;
+  limit?: number;
+  is_brief?: boolean;
+  states?: string[];
+  sort_by?: string;
+  seg_type?: string;
+  page_token?: string;
+  lang?: string;
+}
+
+export interface OrdersResponse {
+  items: Array<{
+    stockId: string;
+    contractId: number;
+    symbol: string;
+    originSymbol: string;
+    market: string;
+    secType: string;
+    currency: string;
+    multiplier: number;
+    identifier: string;
+    id: number;
+    orderId: number;
+    account: string;
+    action: string;
+    orderType: string;
+    limitPrice: number;
+    trailingPercent: number;
+    totalQuantity: number;
+    totalQuantityScale: number;
+    filledQuantity: number;
+    avgFillPrice: number;
+    timeInForce: string;
+    outsideRth: boolean;
+    commission: number;
+    realizedPnl: number;
+    liquidation: boolean;
+    openTime: number;
+    latestTime: number;
+    status: string;
+    source: string;
+  }>;
+}
+
+export interface OrderParams {
+  account?: string;
+  id?: number;
+  order_id?: number;
+  is_brief?: boolean;
+  show_charges?: boolean;
+  lang?: string;
+}
+
+interface TradingTickSize {
   begin?: string | number;
   end?: string | number;
   tick_size?: number;
@@ -35,7 +135,7 @@ export interface TradingTickSize {
   [key: string]: unknown;
 }
 
-export interface TradingContract {
+interface TradingContract {
   contract_id?: number;
   contractId?: number;
   identifier?: string;
@@ -102,11 +202,7 @@ export interface TradingContract {
   [key: string]: unknown;
 }
 
-export type ContractsResponse = TradingContract[];
-export type ContractResponse = TradingContract | null;
-export type DerivativeContractsResponse = TradingContract[];
-
-export interface TradingOrderLeg {
+interface TradingOrderLeg {
   symbol?: string;
   sec_type?: string;
   secType?: string;
@@ -132,7 +228,7 @@ export interface TradingOrderLeg {
   [key: string]: unknown;
 }
 
-export interface TradingChargeDetail {
+interface TradingChargeDetail {
   type?: string;
   type_desc?: string;
   typeDesc?: string;
@@ -143,7 +239,7 @@ export interface TradingChargeDetail {
   [key: string]: unknown;
 }
 
-export interface TradingCharge {
+interface TradingCharge {
   category?: string;
   category_desc?: string;
   categoryDesc?: string;
@@ -152,7 +248,7 @@ export interface TradingCharge {
   [key: string]: unknown;
 }
 
-export interface TradingOrder {
+interface TradingOrder {
   id?: number;
   order_id?: number;
   orderId?: number;
@@ -243,7 +339,7 @@ export interface TradingOrder {
   [key: string]: unknown;
 }
 
-export interface TradingOrderListPayload {
+interface TradingOrderListPayload {
   items?: TradingOrder[];
   orders?: TradingOrder[];
   nextPageToken?: string;
@@ -253,8 +349,6 @@ export interface TradingOrderListPayload {
 
 export interface PlaceOrderParams {
   account?: string;
-  id?: number;
-  order_id?: number;
   symbol?: string;
   sec_type?: string;
   action: string;
@@ -288,26 +382,78 @@ export interface PlaceOrderParams {
   [key: string]: unknown;
 }
 
-export interface PlaceOrderResponse {
-  id?: number;
-  order_id?: number;
-  orderId?: number;
-  sub_ids?: number[];
-  subIds?: number[];
-  orders?: TradingOrder[];
-  [key: string]: unknown;
-}
+/**
+ *
+ * ```json
+ *  {
+ *    "id": number;
+ *    "subIds": Array<number>;
+ *    "order_id": number;
+ *    "orders": Array<{
+ *      "symbol": string;
+ *      "market": string;
+ *      "secType": string;
+ *      "currency": string;
+ *      "identifier": string;
+ *      "id": number;
+ *      "externalId": string;
+ *      "orderId": number;
+ *      "account": string;
+ *      "action": string;
+ *      "orderType": string;
+ *      "limitPrice": number;
+ *      "totalQuantity": number;
+ *      "totalQuantityScale": number;
+ *      "filledQuantity": number;
+ *      "filledQuantityScale": number;
+ *      "filledCashAmount": number;
+ *      "avgFillPrice": number;
+ *      "timeInForce": string;
+ *      "outsideRth": boolean;
+ *      "commission": number;
+ *      "gst": number;
+ *      "realizedPnl": number;
+ *      "remark": string;
+ *      "liquidation": boolean;
+ *      "openTime": number;
+ *      "updateTime": number;
+ *      "latestTime": number;
+ *      "name": string;
+ *      "latestPrice": number;
+ *      "attrDesc": string;
+ *      "userMark": string;
+ *      "attrList": Array<unknown>;
+ *      "algoStrategy": string;
+ *      "status": string;
+ *      "source": string;
+ *      "discount": number;
+ *      "replaceStatus": string;
+ *      "cancelStatus": string;
+ *      "canModify": boolean;
+ *      "canCancel": boolean;
+ *      "isOpen": boolean;
+ *      "orderDiscount": number;
+ *      "tradingSessionType": string;
+ *    }>
+ * }
+ * ```
+ */
+export type PlaceOrderResponse = string;
 
 export interface CancelOrderParams {
-  account?: string;
-  id?: number;
+  account: string;
+  id: number;
   order_id?: number;
 }
 
-export interface CancelOrderResponse {
-  id?: number;
-  [key: string]: unknown;
-}
+/**
+ * ```json
+ * {
+ *  "id": number;
+ * }
+ * ```
+ */
+export type CancelOrderResponse = string;
 
 export interface ModifyOrderParams {
   account?: string;
@@ -332,35 +478,14 @@ export interface ModifyOrderParams {
   [key: string]: unknown;
 }
 
-export interface ModifyOrderResponse {
-  id?: number;
-  [key: string]: unknown;
-}
-
-export interface OrdersParams {
-  account?: string;
-  sec_type?: string;
-  market?: TigerMarket | 'ALL' | string;
-  symbol?: string;
-  start_date?: number | string;
-  end_date?: number | string;
-  limit?: number;
-  is_brief?: boolean;
-  states?: string[];
-  sort_by?: string;
-  seg_type?: string;
-  page_token?: string;
-  lang?: string;
-}
-
-export interface OrderParams {
-  account?: string;
-  id?: number;
-  order_id?: number;
-  is_brief?: boolean;
-  show_charges?: boolean;
-  lang?: string;
-}
+/**
+ * ```json
+ * {
+ *  "id": number;
+ * }
+ * ```
+ */
+export type ModifyOrderResponse = string;
 
 export interface OpenOrdersParams {
   account?: string;
@@ -387,6 +512,40 @@ export interface CancelledOrdersParams {
   lang?: string;
 }
 
+export interface CancelledOrdersResponse {
+  items: Array<{
+    stockId: string;
+    contractId: number;
+    symbol: string;
+    originSymbol: string;
+    market: TigerMarket;
+    secType: string;
+    currency: string;
+    multiplier: number;
+    identifier: string;
+    id: number;
+    orderId: number;
+    account: string;
+    action: string;
+    orderType: string;
+    limitPrice: number;
+    trailingPercent: number;
+    totalQuantity: number;
+    totalQuantityScale: number;
+    filledQuantity: number;
+    avgFillPrice: number;
+    timeInForce: string;
+    outsideRth: boolean;
+    commission: number;
+    realizedPnl: number;
+    liquidation: boolean;
+    openTime: number;
+    latestTime: number;
+    status: string;
+    source: string;
+  }>;
+}
+
 export interface FilledOrdersParams {
   account?: string;
   sec_type?: string;
@@ -399,29 +558,41 @@ export interface FilledOrdersParams {
   lang?: string;
 }
 
-export type OrdersResponse = TradingOrderListPayload;
-export type OpenOrdersResponse = TradingOrderListPayload;
-export type CancelledOrdersResponse = TradingOrderListPayload;
-export type FilledOrdersResponse = TradingOrderListPayload;
-export type OrderResponse = TradingOrderListPayload;
-
-export interface TradingTransaction {
-  id?: number;
-  account?: string;
-  order_id?: number;
-  orderId?: number;
-  action?: string;
-  filled_quantity?: number;
-  filledQuantity?: number;
-  filled_price?: number;
-  filledPrice?: number;
-  filled_amount?: number;
-  filledAmount?: number;
-  transacted_at?: number;
-  transactedAt?: number;
-  contract?: TradingContract;
-  [key: string]: unknown;
+export interface FilledOrdersResponse {
+  items: Array<{
+    stockId: string;
+    contractId: number;
+    symbol: string;
+    originSymbol: string;
+    market: TigerMarket;
+    secType: string;
+    currency: string;
+    multiplier: number;
+    identifier: string;
+    id: number;
+    orderId: number;
+    account: string;
+    action: string;
+    orderType: string;
+    limitPrice: number;
+    trailingPercent: number;
+    totalQuantity: number;
+    totalQuantityScale: number;
+    filledQuantity: number;
+    avgFillPrice: number;
+    timeInForce: string;
+    outsideRth: boolean;
+    commission: number;
+    realizedPnl: number;
+    liquidation: boolean;
+    openTime: number;
+    latestTime: number;
+    status: string;
+    source: string;
+  }>;
 }
+
+export type OpenOrdersResponse = TradingOrderListPayload;
 
 export interface TransactionsParams {
   account?: string;
@@ -438,33 +609,10 @@ export interface TransactionsParams {
   lang?: string;
 }
 
-export interface TransactionsResponse {
-  items?: TradingTransaction[];
-  nextPageToken?: string;
-  next_page_token?: string;
-  [key: string]: unknown;
-}
+// TODO: Fixed
+export type TransactionsResponse = unknown;
 
 export type PreviewOrderParams = PlaceOrderParams;
 
-export interface PreviewOrderData {
-  account?: string;
-  initMargin?: number;
-  maintMargin?: number;
-  equityWithLoan?: number;
-  initMarginBefore?: number;
-  maintMarginBefore?: number;
-  equityWithLoanBefore?: number;
-  marginCurrency?: string;
-  commission?: number;
-  gst?: number;
-  commissionCurrency?: string;
-  availableEE?: number;
-  excessLiquidity?: number;
-  overnightLiquidation?: number;
-  isPass?: boolean;
-  message?: string;
-  [key: string]: unknown;
-}
-
-export type PreviewOrderResponse = PreviewOrderData;
+// TODO: Fixed
+export type PreviewOrderResponse = unknown;
