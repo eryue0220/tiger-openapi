@@ -1,10 +1,7 @@
 import { createTigerClient } from 'tiger-openapi';
 import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+dotenv.config({ path: new URL('./.env.local', import.meta.url).pathname });
 
 async function probeQuoteFunds() {
   const client = createTigerClient({
@@ -28,8 +25,8 @@ async function probeQuoteFunds() {
 
   const fundHistoryQuote = await client.quote.funds.getFundHistoryQuote({
     symbols: ['510300'],
-    begin_time: 1740787200000,
-    end_time: 1773100800000,
+    begin_time: '2026-03-01',
+    end_time: '2026-03-10',
     limit: 20,
   });
   console.log('fundHistoryQuote::', fundHistoryQuote);

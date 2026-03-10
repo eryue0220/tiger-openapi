@@ -1,10 +1,7 @@
 import { createTigerClient } from 'tiger-openapi';
 import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+dotenv.config({ path: new URL('./.env.local', import.meta.url).pathname });
 
 async function probeQuoteCrypto() {
   const client = createTigerClient({
@@ -22,8 +19,9 @@ async function probeQuoteCrypto() {
   const bars = await client.quote.crypto.getBars({
     symbols: ['BTC'],
     period: 'day',
+    limit: 10,
   });
-  console.log('bars::', bars);
+  console.log('bars::', bars.data[0].items);
 
   const timeline = await client.quote.crypto.getTimeline({ symbols: ['BTC'] });
   console.log('timeline::', timeline);

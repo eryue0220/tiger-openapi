@@ -3,7 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "stock": "bun run stock.mjs"
+    "account": "bun run account.mjs",
+    "common": "bun run common.mjs",
+    "crypto": "bun run crypto.mjs",
+    "funds": "bun run funds.mjs",
+    "futures": "bun run futures.mjs",
+    "options": "bun run options.mjs",
+    "scanner": "bun run scanner.mjs",
+    "stock": "bun run stock.mjs",
+    "warrants": "bun run warrants.mjs"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
