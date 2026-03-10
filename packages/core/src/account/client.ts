@@ -25,8 +25,6 @@ import type {
   FundingHistoryResponse,
   FundDetailsParams,
   FundDetailsResponse,
-  AggregateAssetsParams,
-  AggregateAssetsResponse,
 } from './types.js';
 
 export class AccountClient {
@@ -35,7 +33,7 @@ export class AccountClient {
   async getManagedAccounts(
     params: ManagedAccountsParams,
     options: TigerRequestOptions = {}
-  ): Promise<TigerApiResponse<Array<ManagedAccountsResponse>>> {
+  ): Promise<TigerApiResponse<ManagedAccountsResponse>> {
     const payload = await this.client.buildDefaultParams('accounts', params);
     return this.client.request({
       body: payload,
@@ -49,18 +47,6 @@ export class AccountClient {
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<PrimeAssetsResponse>> {
     const payload = await this.client.buildDefaultParams('prime_assets', params);
-    return this.client.request({
-      body: payload,
-      signal: options.signal,
-      timeoutMs: options.timeoutMs,
-    });
-  }
-
-  async getAggregateAssets(
-    params: AggregateAssetsParams,
-    options: TigerRequestOptions = {}
-  ): Promise<TigerApiResponse<AggregateAssetsResponse>> {
-    const payload = await this.client.buildDefaultParams('aggregate_assets', params);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -168,7 +154,7 @@ export class AccountClient {
     params: FundingHistoryParams,
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<FundingHistoryResponse>> {
-    const payload = await this.client.buildDefaultParams('funding_history', params);
+    const payload = await this.client.buildDefaultParams('transfer_fund', params);
     return this.client.request({
       body: payload,
       signal: options.signal,
