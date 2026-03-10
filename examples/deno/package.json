@@ -1,0 +1,10 @@
+{
+  "name": "deno-example",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "tiger-openapi": "workspace:*"
+  }
+}

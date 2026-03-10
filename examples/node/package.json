@@ -1,0 +1,11 @@
+{
+  "name": "node-example",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "@tiger-openapi/node": "workspace:*",
+    "dotenv": "^17.3.1",
+    "tiger-openapi": "workspace:*"
+  }
+}

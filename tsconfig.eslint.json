@@ -4,6 +4,14 @@
     "allowJs": true,
     "noEmit": true
   },
-  "include": ["packages/**/*.ts", "scripts/**/*.mjs", "*.config.js", "*.config.ts"],
+  "include": [
+    "packages/**/*.ts",
+    "scripts/**/*.mjs",
+    "examples/**/*.mjs",
+    "examples/**/*.ts",
+    "*.config.js",
+    "*.config.ts",
+    "examples/**/.env.local"
+  ],
   "exclude": ["**/dist/**", "**/node_modules/**", "**/coverage/**"]
 }
