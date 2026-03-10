@@ -10,9 +10,37 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  should-release:
+    name: Detect release changes
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.detect.outputs.should_run }}
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - id: detect
+        shell: bash
+        run: |
+          if [[ "${{ github.event.head_commit.message }}" == "chore: release packages" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changed_files="$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}")"
+
+          if echo "$changed_files" | grep -Eq '^\.changeset/[^/]+\.md$'; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
   release:
     name: Release packages
-    if: github.repository == 'eryue0220/tiger-openapi'
+    needs: should-release
+    if: github.repository == 'eryue0220/tiger-openapi' && needs.should-release.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -34,14 +62,17 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Validate JSR manifests
         run: pnpm jsr:check
 
-      - name: Build packages
-        run: pnpm build
+      - name: Build publishable package and workspace dependencies
+        run: pnpm turbo run build
 
       - name: Create release PR or publish packages
         uses: changesets/action@v1
@@ -53,5 +84,4 @@ jobs:
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

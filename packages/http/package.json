@@ -1,5 +1,5 @@
 {
-  "name": "@tiger-openapi/http",
+  "name": "tiger-openapi-http",
   "version": "0.1.0",
   "private": true,
   "description": "HTTP transport layer for the Tiger OpenAPI SDK.",
@@ -21,6 +21,6 @@
     "typecheck": "tsc -b ."
   },
   "dependencies": {
-    "@tiger-openapi/shared": "workspace:*"
+    "tiger-openapi-shared": "workspace:*"
   }
 }

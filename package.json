@@ -1,9 +1,21 @@
 {
   "name": "tiger-openapi",
-  "version": "0.1.0",
   "private": true,
   "description": "Monorepo workspace for the Tiger OpenAPI SDK.",
   "type": "module",
+  "keywords": [
+    "tiger",
+    "openapi",
+    "stocks",
+    "options"
+  ],
+  "author": "eryue0220<eryue0220@gmail.com>",
+  "license": "GPL-3.0-only",
+  "homepage": "https://github.com/eryue0220/tiger-openapi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eryue0220/tiger-openapi.git"
+  },
   "scripts": {
     "build": "turbo run build",
     "changeset": "changeset",
@@ -25,7 +37,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^25.3.5",
+    "@types/node": "^25.4.0",
     "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
@@ -33,9 +45,9 @@
     "globals": "^17.4.0",
     "prettier": "^3.3.3",
     "tsup": "^8.5.1",
-    "turbo": "^2.8.14",
+    "turbo": "^2.8.15",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.15.0",
+    "typescript-eslint": "^8.57.0",
     "vitest": "^4.0.18"
   },
   "packageManager": "pnpm@9.15.0"

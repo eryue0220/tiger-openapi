@@ -1,10 +1,10 @@
-import { createHttpClient, TigerHttpClient } from '@tiger-openapi/http';
-import { createStreamClient, TigerStreamClient } from '@tiger-openapi/stream';
+import { createHttpClient, TigerHttpClient } from 'tiger-openapi-http';
+import { createStreamClient, TigerStreamClient } from 'tiger-openapi-stream';
 
 import { createAccountClient, AccountClient } from './account/index.js';
 import { createQuoteClient, QuoteClient } from './quote/index.js';
 import { resolveRuntime } from './runtime.js';
-import { createTradingClient, TradingClient } from './trading/index.js';
+import { createOrderClient, OrderClient } from './order/index.js';
 import type { TigerApiRequest, TigerSdkConfig, TigerSubscription } from './types.js';
 import { TigerClientUtil } from './tiger-client-util.js';
 
@@ -13,14 +13,20 @@ export class TigerClient extends TigerClientUtil {
   readonly stream: TigerStreamClient | undefined;
   readonly account: AccountClient;
   readonly quote: QuoteClient;
-  readonly trading: TradingClient;
+  readonly order: OrderClient;
 
   constructor(config: TigerSdkConfig) {
     super(config);
 
     if (!config.tigerId || !config.account || !config.privateKey) {
       if (!config.tigerId) {
-        throw new Error('HTTP configuration is required.');
+        throw new Error('tigerId is required.');
+      }
+      if (!config.account) {
+        throw new Error('account is required.');
+      }
+      if (!config.privateKey) {
+        throw new Error('privateKey is required.');
       }
     }
 
@@ -49,9 +55,9 @@ export class TigerClient extends TigerClientUtil {
         )
       : undefined;
 
-    this.quote = createQuoteClient(this);
-    this.trading = createTradingClient(this);
     this.account = createAccountClient(this);
+    this.order = createOrderClient(this);
+    this.quote = createQuoteClient(this);
   }
 
   request<TResponse = unknown, TBody = unknown>(
@@ -73,6 +79,6 @@ export class TigerClient extends TigerClientUtil {
   }
 }
 
-export function createTiger(config: TigerSdkConfig): TigerClient {
+export function createTigerClient(config: TigerSdkConfig): TigerClient {
   return new TigerClient(config);
 }

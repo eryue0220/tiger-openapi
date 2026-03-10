@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import path from 'node:path';
+import prettier from 'prettier';
 import process from 'node:process';
 
 const rootDir = process.cwd();
@@ -19,11 +20,11 @@ function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
-function formatJson(value) {
-  return `${JSON.stringify(value, null, 2)}\n`;
+async function formatJson(value) {
+  return prettier.format(JSON.stringify(value), { parser: 'json' });
 }
 
-function syncManifest(packageDir) {
+async function syncManifest(packageDir) {
   const packageJsonPath = path.join(packageDir, 'package.json');
   const jsrJsonPath = path.join(packageDir, 'jsr.json');
   const packageJson = readJson(packageJsonPath);
@@ -33,14 +34,15 @@ function syncManifest(packageDir) {
   }
 
   const jsrJson = readJson(jsrJsonPath);
+  const jsrName = packageJson.jsrName ?? packageJson.name;
   const nextJsrJson = {
     ...jsrJson,
-    name: packageJson.name,
+    name: jsrName,
     version: packageJson.version,
   };
 
-  const current = formatJson(jsrJson);
-  const next = formatJson(nextJsrJson);
+  const current = await formatJson(jsrJson);
+  const next = await formatJson(nextJsrJson);
 
   if (current === next) {
     return;
@@ -56,5 +58,5 @@ function syncManifest(packageDir) {
 const packageDirs = await getPackageDirs();
 
 for (const packageDir of packageDirs) {
-  syncManifest(packageDir);
+  await syncManifest(packageDir);
 }

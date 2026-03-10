@@ -5,6 +5,14 @@ export interface TigerRequest<TBody = unknown> {
   timeoutMs?: number;
 }
 
+export interface TigerResponse<TBody = unknown> {
+  code: number;
+  message: string;
+  timestamp: string;
+  sign?: string;
+  data?: TBody;
+}
+
 export interface RetryDecisionContext {
   attempt: number;
   response?: Response;
