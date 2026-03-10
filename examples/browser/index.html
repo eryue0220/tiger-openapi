@@ -90,7 +90,10 @@
   <body>
     <main>
       <h1>Browser Example</h1>
-      <p>Pure HTML + Pure JavaScript demo with multiple modules from <code>tiger-openapi/browser</code>.</p>
+      <p>
+        Pure HTML + Pure JavaScript demo with multiple modules from
+        <code>tiger-openapi/browser</code>.
+      </p>
 
       <div class="row">
         <label for="tigerId">TIGER_ID</label>
@@ -151,20 +154,20 @@
       import { createTigerClient } from 'tiger-openapi/browser';
 
       const runBtn = document.getElementById('runBtn');
-        const output = document.getElementById('output');
-        const actionSelect = document.getElementById('action');
+      const output = document.getElementById('output');
+      const actionSelect = document.getElementById('action');
 
-        function setOutput(value) {
-          output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
-        }
+      function setOutput(value) {
+        output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+      }
 
-        runBtn.addEventListener('click', async () => {
-          const tigerId = document.getElementById('tigerId').value.trim();
-          const account = document.getElementById('account').value.trim();
-          const privateKey = document.getElementById('privateKey').value.trim();
-          const market = document.getElementById('market').value;
-          const symbol = document.getElementById('symbol').value.trim() || '29145';
-          const action = actionSelect.value;
+      runBtn.addEventListener('click', async () => {
+        const tigerId = document.getElementById('tigerId').value.trim();
+        const account = document.getElementById('account').value.trim();
+        const privateKey = document.getElementById('privateKey').value.trim();
+        const market = document.getElementById('market').value;
+        const symbol = document.getElementById('symbol').value.trim() || '29145';
+        const action = actionSelect.value;
 
         if (!tigerId || !account || !privateKey) {
           setOutput('Please fill TIGER_ID / ACCOUNT / PRIVATE_KEY first.');

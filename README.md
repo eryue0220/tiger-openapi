@@ -18,6 +18,8 @@ It also supports multiple runtime targets at the architecture level:
 > [!IMPORTANT]  
 > This is not the official NodeJS SDK, and currently it's still under development.
 >
+> Before you start to use this api, ensure you have opened tiger api call. Or you can visit this [page](https://developer.itigerup.com/) to start.
+>
 > If any bug, please open an [issue](https://github.com/eryue0220/tiger-openapi/issues)
 
 ---
@@ -33,7 +35,7 @@ npm i tiger-openapi
 
 # via yarn
 yarn add tiger-openapi
-``
+```
 
 ## Quick Start
 
@@ -42,7 +44,6 @@ yarn add tiger-openapi
 ```ts
 import { TigerClient, createTigerClient } from 'tiger-openapi';
 
-// apply in tiger openapi page
 const tiger = new TigerClient({
   tigerId: '...',
   account: '...',
@@ -79,11 +80,13 @@ const tiger = createTigerClient({
 });
 ```
 
-## API Overview
+## Example
 
-## Quote
+Here is some example about how to call the quote / account / order api, you can visit the [examples](./examples/) for more details.
 
-### Common
+### Quote
+
+#### Common
 
 For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-common).
 
@@ -97,19 +100,31 @@ await tiger.quote.common.getKlineQuote({
 });
 ```
 
-### Crypto
+#### Crypto
 
-This is still development.
+For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-cc).
 
-### Funds
+```typescript
+await tiger.quote.crypto.getSymbols();
+```
 
-This is still development.
+#### Funds
 
-### Futures
+For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-fund)
 
-This is still development.
+```typescript
+await client.quote.funds.getFundSymbols();
+```
 
-### Options
+#### Futures
+
+For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-future)
+
+```typescript
+await client.quote.futures.getFutureExchanges();
+```
+
+#### Options
 
 Please ensure you have permission to enable query options before you call the API.
 
@@ -125,7 +140,7 @@ await tiger.quote.options.getOptionBriefs({
 
 For more details about Options, please check the [document](https://docs-en.itigerup.com/docs/quote-option).
 
-### Stock
+#### Stock
 
 Please ensure you have permission to enable query stock before you call the API.
 
@@ -141,17 +156,41 @@ await tiger.quote.stock.getTradingCalendar({
 
 For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-stock) about stock.
 
-### Warrants
+#### Warrants
 
-This is still development.
+For more details please check the [API document](https://docs-en.itigerup.com/docs/quote-warrant) about warrant.
+
+```typescript
+await tiger.quote.warrants.getWarrantBriefs({
+  /* */
+});
+```
 
 ## Accounts
 
-This is still development.
+For more details please check the [API document](https://docs-en.itigerup.com/docs/accounts) about warrant.
+
+```typescript
+const accountInfo = await client.account.getAccountInfo();
+console.log('accountInfo::', accountInfo);
+
+const accountBalance = await client.account.getAccountBalance();
+console.log('accountBalance::', accountBalance);
+```
 
 ## Order
 
-This is still development.
+For more details please check the [API document](https://docs-en.itigerup.com/docs/get-contract) about warrant.
+
+```typescript
+// 1. getContract
+const contract = await client.order.getContract({ symbol: 'AAPL', sec_type: 'STK' });
+logResult('getContract', contract);
+
+// 2. getContracts
+const contracts = await client.order.getContracts({ symbols: ['AAPL'], sec_type: 'STK' });
+logResult('getContracts', contracts);
+```
 
 ## Stream
 
