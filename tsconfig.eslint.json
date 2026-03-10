@@ -10,6 +10,9 @@
     "scripts/**/*.mjs",
     "examples/**/*.mjs",
     "examples/**/*.ts",
+    "playground/**/*.ts",
+    "playground/**/*.tsx",
+    "playground/**/*.mjs",
     "*.config.js",
     "*.config.ts",
     "examples/**/.env.local"

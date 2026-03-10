@@ -18,8 +18,10 @@
   },
   "scripts": {
     "build": "turbo run build",
+    "build:playground": "turbo run build --filter=tiger-openapi-playground...",
     "changeset": "changeset",
     "dev": "turbo run dev --parallel",
+    "dev:playground": "turbo run dev --filter=tiger-openapi-playground",
     "jsr:check": "node ./scripts/sync-jsr-manifests.mjs --check",
     "test": "vitest",
     "test:run": "vitest run",
