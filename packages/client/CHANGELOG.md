@@ -1,5 +1,11 @@
 # tiger-openapi
 
+## 0.2.0
+
+### Minor Changes
+
+- d48bdd8: add options/stock/account api
+
 ## 0.1.3
 
 ### Patch Changes
