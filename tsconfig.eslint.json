@@ -6,6 +6,7 @@
   },
   "include": [
     "packages/**/*.ts",
+    "packages/**/scripts/**/*.mjs",
     "scripts/**/*.mjs",
     "examples/**/*.mjs",
     "examples/**/*.ts",
