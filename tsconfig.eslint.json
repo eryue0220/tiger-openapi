@@ -6,10 +6,13 @@
   },
   "include": [
     "packages/**/*.ts",
-    "packages/**/*.mjs",
+    "packages/**/scripts/**/*.mjs",
     "scripts/**/*.mjs",
+    "examples/**/*.mjs",
+    "examples/**/*.ts",
     "*.config.js",
-    "*.config.ts"
+    "*.config.ts",
+    "examples/**/.env.local"
   ],
   "exclude": ["**/dist/**", "**/node_modules/**", "**/coverage/**"]
 }

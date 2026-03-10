@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "stock": "deno run --allow-net --allow-read ./stock.ts"
+  }
+}
