@@ -90,10 +90,7 @@
   <body>
     <main>
       <h1>Browser Example</h1>
-      <p>
-        Pure HTML + Pure JavaScript demo. This page imports from
-        <code>tiger-openapi/browser</code>.
-      </p>
+      <p>Pure HTML + Pure JavaScript demo with multiple modules from <code>tiger-openapi/browser</code>.</p>
 
       <div class="row">
         <label for="tigerId">TIGER_ID</label>
@@ -111,6 +108,21 @@
       </div>
 
       <div class="row">
+        <label for="action">ACTION</label>
+        <select id="action">
+          <option value="accountInfo">account.getAccountInfo</option>
+          <option value="commonPermission">quote.common.getQuotePermission</option>
+          <option value="stockMarketStatus">quote.stock.getMarketStatus</option>
+          <option value="optionSymbols">quote.options.getOptionSymbols</option>
+          <option value="scanner">quote.scanner.getScanner</option>
+          <option value="cryptoSymbols">quote.crypto.getSymbols</option>
+          <option value="fundSymbols">quote.funds.getFundSymbols</option>
+          <option value="warrantBriefs">quote.warrants.getWarrantBriefs</option>
+          <option value="futureExchanges">quote.futures.getFutureExchanges</option>
+        </select>
+      </div>
+
+      <div class="row">
         <label for="market">MARKET</label>
         <select id="market">
           <option value="US">US</option>
@@ -118,7 +130,12 @@
         </select>
       </div>
 
-      <button id="runBtn" type="button">Get Market Status</button>
+      <div class="row">
+        <label for="symbol">SYMBOL</label>
+        <input id="symbol" value="29145" />
+      </div>
+
+      <button id="runBtn" type="button">Run</button>
       <pre id="output">Click the button to run.</pre>
     </main>
 
@@ -134,17 +151,20 @@
       import { createTigerClient } from 'tiger-openapi/browser';
 
       const runBtn = document.getElementById('runBtn');
-      const output = document.getElementById('output');
+        const output = document.getElementById('output');
+        const actionSelect = document.getElementById('action');
 
-      function setOutput(value) {
-        output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
-      }
+        function setOutput(value) {
+          output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+        }
 
-      runBtn.addEventListener('click', async () => {
-        const tigerId = document.getElementById('tigerId').value.trim();
-        const account = document.getElementById('account').value.trim();
-        const privateKey = document.getElementById('privateKey').value.trim();
-        const market = document.getElementById('market').value;
+        runBtn.addEventListener('click', async () => {
+          const tigerId = document.getElementById('tigerId').value.trim();
+          const account = document.getElementById('account').value.trim();
+          const privateKey = document.getElementById('privateKey').value.trim();
+          const market = document.getElementById('market').value;
+          const symbol = document.getElementById('symbol').value.trim() || '29145';
+          const action = actionSelect.value;
 
         if (!tigerId || !account || !privateKey) {
           setOutput('Please fill TIGER_ID / ACCOUNT / PRIVATE_KEY first.');
@@ -160,8 +180,40 @@
             privateKey,
           });
 
-          const marketStatus = await client.quote.stock.getMarketStatus({ market });
-          setOutput(marketStatus);
+          let result;
+          switch (action) {
+            case 'accountInfo':
+              result = await client.account.getAccountInfo();
+              break;
+            case 'commonPermission':
+              result = await client.quote.common.getQuotePermission();
+              break;
+            case 'stockMarketStatus':
+              result = await client.quote.stock.getMarketStatus({ market });
+              break;
+            case 'optionSymbols':
+              result = await client.quote.options.getOptionSymbols();
+              break;
+            case 'scanner':
+              result = await client.quote.scanner.getScanner({ market, page: 1, page_size: 10 });
+              break;
+            case 'cryptoSymbols':
+              result = await client.quote.crypto.getSymbols();
+              break;
+            case 'fundSymbols':
+              result = await client.quote.funds.getFundSymbols();
+              break;
+            case 'warrantBriefs':
+              result = await client.quote.warrants.getWarrantBriefs({ symbols: [symbol] });
+              break;
+            case 'futureExchanges':
+              result = await client.quote.futures.getFutureExchanges();
+              break;
+            default:
+              result = { message: `Unknown action: ${action}` };
+          }
+
+          setOutput(result);
         } catch (error) {
           setOutput({ message: error instanceof Error ? error.message : String(error) });
         }

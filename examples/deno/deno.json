@@ -1,5 +1,13 @@
 {
   "tasks": {
-    "stock": "deno run --allow-net --allow-read ./stock.ts"
+    "account": "deno run --allow-net --allow-read ./account.ts",
+    "common": "deno run --allow-net --allow-read ./common.ts",
+    "crypto": "deno run --allow-net --allow-read ./crypto.ts",
+    "funds": "deno run --allow-net --allow-read ./funds.ts",
+    "futures": "deno run --allow-net --allow-read ./futures.ts",
+    "options": "deno run --allow-net --allow-read ./options.ts",
+    "scanner": "deno run --allow-net --allow-read ./scanner.ts",
+    "stock": "deno run --allow-net --allow-read ./stock.ts",
+    "warrants": "deno run --allow-net --allow-read ./warrants.ts"
   }
 }

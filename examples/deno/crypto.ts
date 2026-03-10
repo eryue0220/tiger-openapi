@@ -1,16 +1,13 @@
-import { createTigerClient } from 'tiger-openapi';
-import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+import { createTigerClient } from 'npm:tiger-openapi';
+import { loadEnv } from './_env.ts';
 
 async function probeQuoteCrypto() {
+  const env = await loadEnv(new URL('./.env.local', import.meta.url));
+
   const client = createTigerClient({
-    tigerId: process.env.TIGER_ID,
-    account: process.env.ACCOUNT,
-    privateKey: process.env.PRIVATE_KEY,
+    tigerId: env.TIGER_ID,
+    account: env.ACCOUNT,
+    privateKey: env.PRIVATE_KEY,
   });
 
   const symbols = await client.quote.crypto.getSymbols();
@@ -22,8 +19,9 @@ async function probeQuoteCrypto() {
   const bars = await client.quote.crypto.getBars({
     symbols: ['BTC'],
     period: 'day',
+    limit: 10,
   });
-  console.log('bars::', bars);
+  console.log('bars::', bars.data[0].items);
 
   const timeline = await client.quote.crypto.getTimeline({ symbols: ['BTC'] });
   console.log('timeline::', timeline);
@@ -35,5 +33,5 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  process.exit(1);
+  Deno.exit(1);
 });

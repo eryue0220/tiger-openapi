@@ -1,16 +1,13 @@
-import { createTigerClient } from 'tiger-openapi';
-import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+import { createTigerClient } from 'npm:tiger-openapi';
+import { loadEnv } from './_env.ts';
 
 async function probeQuoteFutures() {
+  const env = await loadEnv(new URL('./.env.local', import.meta.url));
+
   const client = createTigerClient({
-    tigerId: process.env.TIGER_ID,
-    account: process.env.ACCOUNT,
-    privateKey: process.env.PRIVATE_KEY,
+    tigerId: env.TIGER_ID,
+    account: env.ACCOUNT,
+    privateKey: env.PRIVATE_KEY,
   });
 
   const futureExchanges = await client.quote.futures.getFutureExchanges();
@@ -79,5 +76,5 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  process.exit(1);
+  Deno.exit(1);
 });

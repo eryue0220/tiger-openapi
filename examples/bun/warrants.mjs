@@ -1,10 +1,7 @@
 import { createTigerClient } from 'tiger-openapi';
 import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+dotenv.config({ path: new URL('./.env.local', import.meta.url).pathname });
 
 async function probeQuoteWarrants() {
   const client = createTigerClient({
@@ -16,14 +13,14 @@ async function probeQuoteWarrants() {
   const warrantBriefs = await client.quote.warrants.getWarrantBriefs({
     symbols: ['29145'],
   });
-  console.log('warrantBriefs::', warrantBriefs.data.items);
+  console.log('warrantBriefs::', warrantBriefs);
 
   const warrantFilter = await client.quote.warrants.getWarrantFilter({
     symbol: '00700',
     page: 1,
     page_size: 10,
   });
-  console.log('warrantFilter::', warrantFilter.data.items[0], warrantFilter.data.bounds);
+  console.log('warrantFilter::', warrantFilter);
 }
 
 async function main() {

@@ -33,20 +33,7 @@ npm i tiger-openapi
 
 # via yarn
 yarn add tiger-openapi
-```
-
-or
-
-```bash
-# via pnpm
-pnpm add tiger-openapi
-
-# via npm
-npm i tiger-openapi
-
-# via yarn
-yarn add tiger-openapi
-```
+``
 
 ## Quick Start
 

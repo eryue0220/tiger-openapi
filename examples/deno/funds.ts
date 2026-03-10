@@ -1,16 +1,13 @@
-import { createTigerClient } from 'tiger-openapi';
-import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+import { createTigerClient } from 'npm:tiger-openapi';
+import { loadEnv } from './_env.ts';
 
 async function probeQuoteFunds() {
+  const env = await loadEnv(new URL('./.env.local', import.meta.url));
+
   const client = createTigerClient({
-    tigerId: process.env.TIGER_ID,
-    account: process.env.ACCOUNT,
-    privateKey: process.env.PRIVATE_KEY,
+    tigerId: env.TIGER_ID,
+    account: env.ACCOUNT,
+    privateKey: env.PRIVATE_KEY,
   });
 
   const symbols = await client.quote.funds.getFundSymbols();
@@ -28,8 +25,8 @@ async function probeQuoteFunds() {
 
   const fundHistoryQuote = await client.quote.funds.getFundHistoryQuote({
     symbols: ['510300'],
-    begin_time: 1740787200000,
-    end_time: 1773100800000,
+    begin_time: '2026-03-01',
+    end_time: '2026-03-10',
     limit: 20,
   });
   console.log('fundHistoryQuote::', fundHistoryQuote);
@@ -41,5 +38,5 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  process.exit(1);
+  Deno.exit(1);
 });

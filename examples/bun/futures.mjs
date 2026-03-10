@@ -1,10 +1,7 @@
 import { createTigerClient } from 'tiger-openapi';
 import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(currentDir, '.env.local') });
+dotenv.config({ path: new URL('./.env.local', import.meta.url).pathname });
 
 async function probeQuoteFutures() {
   const client = createTigerClient({
