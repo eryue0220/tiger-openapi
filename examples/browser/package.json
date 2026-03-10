@@ -2,9 +2,10 @@
   "name": "browser-example",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "dev": "node ./server.mjs"
+  },
   "dependencies": {
-    "dotenv": "^17.3.1",
     "tiger-openapi": "workspace:*"
   }
 }

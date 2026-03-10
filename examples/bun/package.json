@@ -2,7 +2,9 @@
   "name": "bun-example",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "stock": "bun run stock.mjs"
+  },
   "dependencies": {
     "dotenv": "^17.3.1",
     "tiger-openapi": "workspace:*"

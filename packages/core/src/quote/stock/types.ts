@@ -3,15 +3,12 @@ export interface MarketStatusParams {
   lang?: string;
 }
 
-export interface MarketStatusItem {
+export interface MarketStatusResponse {
   market: string;
-  trading_status: string;
+  marketStatus: string;
   status: string;
-  open_time: string | number;
-  [key: string]: unknown;
+  openTime: string;
 }
-
-export type MarketStatusResponse = MarketStatusItem[];
 
 export interface TradingCalendarParams {
   market: string;
@@ -19,22 +16,19 @@ export interface TradingCalendarParams {
   end_date?: string;
 }
 
-export interface TradingCalendarItem {
+export interface TradingCalendarResponse {
   date: string;
+  closeTime: string;
   type: string;
-  open_time?: string;
-  close_time?: string;
-  [key: string]: unknown;
+  openTime: string;
 }
-
-export type TradingCalendarResponse = TradingCalendarItem[];
 
 export interface SymbolsParams {
   market?: string;
   include_otc?: boolean;
 }
 
-export type SymbolsResponse = string[];
+export type SymbolsResponse = string;
 
 export interface SymbolNamesParams {
   market: string;
@@ -42,7 +36,10 @@ export interface SymbolNamesParams {
   include_otc?: boolean;
 }
 
-export type SymbolNamesResponse = Array<[string, string]>;
+export interface SymbolNamesResponse {
+  symbol: string;
+  name: string;
+}
 
 export interface SymbolBriefsParams {
   symbols: string[];
@@ -50,34 +47,39 @@ export interface SymbolBriefsParams {
   lang?: string;
 }
 
-export interface SymbolBriefItem {
-  symbol: string;
-  ask_price: number;
-  ask_size: number;
-  bid_price: number;
-  bid_size: number;
-  latest_price: number;
-  latest_time: number;
-  open?: number;
-  high?: number;
-  low?: number;
-  volume?: number;
-  [key: string]: unknown;
-}
+/**
+ * {
+ *   "items": [{
+ *     "symbol": "AAPL",
+ *     "market": "US",
+ *     "secType": "STK",
+ *     "name": "Apple",
+ *     "latestPrice": 259.88,
+ *     "timestamp": 1773086400000,
+ *     "preClose": 257.46,
+ *     "halted": 0.0,
+ *     "delay": 0,
+ *     "hourTrading": {
+ *       "tag": "盘后",
+ *       "latestPrice": 259.0,
+ *       "preClose": 259.88,
+ *       "latestTime": "19: 59 EDT",
+ *       "volume": 4266624,
+ *       "timestamp": 1773100794888
+ *     }
+ *   }]
+ * }
+ */
 
-export type SymbolBriefsResponse = SymbolBriefItem[];
+export type SymbolBriefsResponse = string;
 
 export interface DepthQuoteParams {
   symbols: string[];
   market: string;
 }
 
-export interface DepthQuoteResponse {
-  symbol: string;
-  asks: Array<[number, number, number]>;
-  bids: Array<[number, number, number]>;
-  [key: string]: unknown;
-}
+// TODO: Fixed
+export type DepthQuoteResponse = unknown;
 
 export interface TradeTicksParams {
   symbols: string[];
@@ -88,15 +90,17 @@ export interface TradeTicksParams {
   lang?: string;
 }
 
-export interface TradeTickItem {
+export interface TradeTicksResponse {
   symbol: string;
-  time: number;
-  price: number;
-  volume: number;
-  [key: string]: unknown;
+  beginIndex: number;
+  endIndex: number;
+  items: Array<{
+    time: number;
+    volume: number;
+    price: number;
+    type: string;
+  }>;
 }
-
-export type TradeTicksResponse = TradeTickItem[];
 
 export interface BarsParams {
   symbols: string[];
@@ -112,18 +116,19 @@ export interface BarsParams {
   with_fundamental?: boolean;
 }
 
-export interface BarItem {
-  time: number;
-  open: number;
-  close: number;
-  high: number;
-  low: number;
-  volume: number;
-  next_page_token?: string;
-  [key: string]: unknown;
+export interface BarsResponse {
+  symbol: string;
+  period: string;
+  items: Array<{
+    time: number;
+    volume: number;
+    open: number;
+    close: number;
+    high: number;
+    low: number;
+    amount: number;
+  }>;
 }
-
-export type BarsResponse = BarItem[];
 
 export interface BarsByPageParams {
   symbol: string;
@@ -138,8 +143,6 @@ export interface BarsByPageParams {
   trade_session?: string;
 }
 
-export type BarsByPageResponse = BarItem[];
-
 export interface TimelineParams {
   symbols: string[];
   include_hour_trading?: boolean;
@@ -148,18 +151,22 @@ export interface TimelineParams {
   trade_session?: string;
 }
 
-export interface TimelineItem {
-  symbol: string;
-  time: number;
-  price: number;
-  avg_price: number;
-  pre_close?: number;
-  volume?: number;
-  trading_session?: string;
-  [key: string]: unknown;
-}
-
-export type TimelineResponse = TimelineItem[];
+/**
+ * [{
+ *   "symbol": "AAPL",
+ *   "period": "day",
+ *   "preClose": 257.46,
+ *   "intraday": {
+ *     "items": [{
+ *       "time": 1773063000000,
+ *       "volume": 897201,
+ *       "price": 256.945,
+ *       "avgPrice":255.83316
+ *     }]
+ *   }
+ * }]
+ */
+export type TimelineResponse = string;
 
 export interface TimelineHistoryParams {
   symbols: string[];
@@ -168,49 +175,43 @@ export interface TimelineHistoryParams {
   trade_session?: string;
 }
 
-export interface TimelineHistoryItem {
+export interface TimelineHistoryResponse {
   symbol: string;
-  time: number;
-  price: number;
-  avg_price: number;
-  [key: string]: unknown;
+  items: Array<{
+    time: number;
+    volume: number;
+    price: number;
+    avgPrice: number;
+  }>;
 }
-
-export type TimelineHistoryResponse = TimelineHistoryItem[];
 
 export interface StockDelayBriefsParams {
   symbols: string[];
   lang?: string;
 }
 
-export interface StockDelayBriefItem {
+export interface StockDelayBriefsResponse {
   symbol: string;
-  pre_close: number;
+  preClose: number;
+  halted: number;
   time: number;
-  volume: number;
   open: number;
   high: number;
   low: number;
   close: number;
-  halted: number;
-  [key: string]: unknown;
+  volume: number;
 }
-
-export type StockDelayBriefsResponse = StockDelayBriefItem[];
 
 export interface TradeMetasParams {
   symbols: string[];
 }
 
-export interface TradeMetaItem {
+export interface TradeMetasResponse {
   symbol: string;
-  lot_size: number;
-  min_tick: number;
-  spread_scale: number;
-  [key: string]: unknown;
+  lotSize: number;
+  spreadScale: number;
+  minTick: number;
 }
-
-export type TradeMetasResponse = TradeMetaItem[];
 
 export interface CapitalFlowParams {
   symbol: string;
@@ -222,16 +223,15 @@ export interface CapitalFlowParams {
   lang?: string;
 }
 
-export interface CapitalFlowItem {
+export interface CapitalFlowResponse {
   symbol: string;
   period: string;
-  time: string;
-  timestamp: number;
-  net_inflow: number;
-  [key: string]: unknown;
+  items: Array<{
+    time: string;
+    timestamp: number;
+    netInflow: number;
+  }>;
 }
-
-export type CapitalFlowResponse = CapitalFlowItem[];
 
 export interface CapitalDistributionParams {
   symbol: string;
@@ -241,16 +241,15 @@ export interface CapitalDistributionParams {
 
 export interface CapitalDistributionResponse {
   symbol: string;
-  net_inflow: number;
-  in_all: number;
-  in_big: number;
-  in_mid: number;
-  in_small: number;
-  out_all: number;
-  out_big: number;
-  out_mid: number;
-  out_small: number;
-  [key: string]: unknown;
+  netInflow: number;
+  inAll: number;
+  inBig: number;
+  inMid: number;
+  inSmall: number;
+  outAll: number;
+  outBig: number;
+  outMid: number;
+  outSmall: number;
 }
 
 export interface StockBrokerParams {
@@ -259,19 +258,17 @@ export interface StockBrokerParams {
   lang?: string;
 }
 
-export interface StockBrokerLevelItem {
+interface StockBrokerLevelItem {
   level: number;
   price: number;
-  broker_count: number;
-  broker: Array<{ id: string; name: string; [key: string]: unknown }>;
-  [key: string]: unknown;
+  brokerCount: number;
+  broker: Array<{ id: string; name: string }>;
 }
 
 export interface StockBrokerResponse {
   symbol: string;
-  bid_broker: StockBrokerLevelItem[];
-  ask_broker: StockBrokerLevelItem[];
-  [key: string]: unknown;
+  bidBroker: StockBrokerLevelItem[];
+  askBroker: StockBrokerLevelItem[];
 }
 
 export interface BrokerHoldParams {
@@ -283,39 +280,36 @@ export interface BrokerHoldParams {
   lang?: string;
 }
 
-export interface BrokerHoldItem {
-  org_id: string;
-  org_name: string;
+export interface BrokerHoldResponse {
+  page: number;
+  totalPage: number;
+  totalCount: number;
   date: string;
-  shares_hold: number;
-  market_value: number;
-  buy_amount: number;
-  buy_amount5: number;
-  buy_amount20: number;
-  buy_amount60: number;
-  market: string;
-  [key: string]: unknown;
+  items: Array<{
+    orgId: string;
+    orgName: string;
+    date: string;
+    sharesHold: number;
+    marketValue: number;
+    buyAmount: number;
+    buyAmount5: number;
+    buyAmount20: number;
+    buyAmount60: number;
+    market: string;
+  }>;
 }
-
-export type BrokerHoldResponse = BrokerHoldItem[];
 
 export interface TradeRankParams {
   market: string;
   lang?: string;
 }
 
-export interface TradeRankItem {
+export interface TradeRankResponse {
   symbol: string;
   market: string;
   name: string;
-  sec_type: string;
-  change_rate: number;
-  sell_order_rate: number;
-  buy_order_rate: number;
-  hour_trading_trading_status?: number;
-  hour_trading_trade_session?: string;
-  hour_trading_change_rate?: number;
-  [key: string]: unknown;
+  secType: string;
+  changeRate: number;
+  sellOrderRate: number;
+  buyOrderRate: number;
 }
-
-export type TradeRankResponse = TradeRankItem[];

@@ -1,12 +1,12 @@
 import { createTigerClient } from 'tiger-openapi';
 import dotenv from 'dotenv';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-dotenv.config();
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(currentDir, '.env.local') });
 
 async function probeQuoteStock() {
-  console.log('process.env.TIGER_ID::', process.env);
-  console.log('process.env.ACCOUNT::', process.env.ACCOUNT);
-  console.log('process.env.PRIVATE_KEY::', process.env.PRIVATE_KEY);
   const client = createTigerClient({
     tigerId: process.env.TIGER_ID,
     account: process.env.ACCOUNT,
@@ -39,15 +39,15 @@ async function probeQuoteStock() {
   console.log('tradeTicks::', tradeTicks);
 
   const bars = await client.quote.stock.getBars({ symbols: ['AAPL'], period: 'day', limit: 10 });
-  console.log('bars::', bars);
+  console.log('bars::', bars.data[0].items);
 
   const barsByPage = await client.quote.stock.getBarsByPage({
-    symbol: 'AAPL',
+    symbols: ['AAPL'],
     period: 'day',
     page_size: 10,
     total: 10,
   });
-  console.log('barsByPage::', barsByPage);
+  console.log('barsByPage::', barsByPage.data[0].items);
 
   const timeline = await client.quote.stock.getTimeline({ symbols: ['AAPL'] });
   console.log('timeline::', timeline);
@@ -56,7 +56,7 @@ async function probeQuoteStock() {
     symbols: ['AAPL'],
     date: '2026-03-09',
   });
-  console.log('timelineHistory::', timelineHistory);
+  console.log('timelineHistory::', timelineHistory.data[0].items);
 
   const stockDelayBriefs = await client.quote.stock.getStockDelayBriefs({ symbols: ['AAPL'] });
   console.log('stockDelayBriefs::', stockDelayBriefs);
@@ -78,13 +78,16 @@ async function probeQuoteStock() {
   });
   console.log('capitalDistribution::', capitalDistribution);
 
-  const stockBroker = await client.quote.stock.getStockBroker({ symbol: 'AAPL', limit: 10 });
+  // only HK stock
+  const stockBroker = await client.quote.stock.getStockBroker({ symbol: '09988', limit: 10 });
   console.log('stockBroker::', stockBroker);
 
-  const brokerHold = await client.quote.stock.getBrokerHold({ market: 'US', limit: 10, page: 1 });
-  console.log('brokerHold::', brokerHold);
+  // only HK market
+  const brokerHold = await client.quote.stock.getBrokerHold({ market: 'HK', limit: 10, page: 1 });
+  console.log('brokerHold::', brokerHold.data.items[0]);
 
-  const tradeRank = await client.quote.stock.getTradeRank({ market: 'US' });
+  // only HK market
+  const tradeRank = await client.quote.stock.getTradeRank({ market: 'HK' });
   console.log('tradeRank::', tradeRank);
 }
 
