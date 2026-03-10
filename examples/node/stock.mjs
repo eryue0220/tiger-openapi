@@ -1,9 +1,12 @@
-import { createTigerClient } from '@tiger-openapi/node';
+import { createTigerClient } from 'tiger-openapi';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 async function probeQuoteStock() {
+  console.log('process.env.TIGER_ID::', process.env);
+  console.log('process.env.ACCOUNT::', process.env.ACCOUNT);
+  console.log('process.env.PRIVATE_KEY::', process.env.PRIVATE_KEY);
   const client = createTigerClient({
     tigerId: process.env.TIGER_ID,
     account: process.env.ACCOUNT,
