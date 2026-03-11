@@ -4,11 +4,13 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
 
+const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 export const metadata: Metadata = {
   title: 'Tiger OpenAPI Playground',
   description: 'Debug tiger-openapi directly in your browser.',
   icons: {
-    icon: '/tiger-openapi-icon.svg',
+    icon: `${publicBasePath}/tiger-openapi-icon.svg`,
   },
 };
 

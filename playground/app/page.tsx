@@ -44,6 +44,8 @@ const ACTIONS: Array<{ key: ActionKey; label: string }> = [
   { key: 'futureExchanges', label: 'quote.futures.getFutureExchanges' },
 ];
 
+const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 function normalizeOutput(value: unknown): Record<string, unknown> {
   if (typeof value === 'string') {
     try {
@@ -180,7 +182,7 @@ export default function Home() {
           <div className="space-y-2">
             <div className="flex items-center justify-start gap-3">
               <Image
-                src="/tiger-openapi-icon.svg"
+                src={`${publicBasePath}/tiger-openapi-icon.svg`}
                 alt="Tiger OpenAPI icon"
                 width={40}
                 height={40}
