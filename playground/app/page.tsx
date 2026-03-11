@@ -1,5 +1,7 @@
 'use client';
 
+import JsonView from '@uiw/react-json-view';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { createTigerClient } from 'tiger-openapi/browser';
 
@@ -42,6 +44,26 @@ const ACTIONS: Array<{ key: ActionKey; label: string }> = [
   { key: 'futureExchanges', label: 'quote.futures.getFutureExchanges' },
 ];
 
+function normalizeOutput(value: unknown): Record<string, unknown> {
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value) as unknown;
+      if (parsed && typeof parsed === 'object') {
+        return parsed as Record<string, unknown>;
+      }
+      return { value: parsed };
+    } catch {
+      return { value };
+    }
+  }
+
+  if (value && typeof value === 'object') {
+    return value as Record<string, unknown>;
+  }
+
+  return { value };
+}
+
 export default function Home() {
   const [tigerId, setTigerId] = useState('');
   const [account, setAccount] = useState('');
@@ -50,20 +72,54 @@ export default function Home() {
   const [symbol, setSymbol] = useState('29145');
   const [action, setAction] = useState<ActionKey>('accountInfo');
   const [loading, setLoading] = useState(false);
-  const [output, setOutput] = useState('Click Run to start.');
+  const [output, setOutput] = useState<Record<string, unknown>>({
+    message: 'Click Run to start.',
+  });
 
   const canRun = useMemo(() => {
     return Boolean(tigerId.trim() && account.trim() && privateKey.trim()) && !loading;
   }, [account, loading, privateKey, tigerId]);
+  const jsonViewStyle = useMemo(
+    () =>
+      ({
+        '--w-rjv-font-family': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+        '--w-rjv-color': 'hsl(var(--foreground))',
+        '--w-rjv-key-string': 'hsl(var(--foreground))',
+        '--w-rjv-background-color': 'transparent',
+        '--w-rjv-line-color': 'hsl(var(--border) / 0.45)',
+        '--w-rjv-arrow-color': 'hsl(var(--muted-foreground))',
+        '--w-rjv-edit-color': 'hsl(var(--foreground))',
+        '--w-rjv-info-color': 'hsl(var(--muted-foreground))',
+        '--w-rjv-update-color': '#f59e0b',
+        '--w-rjv-copied-color': 'hsl(var(--foreground))',
+        '--w-rjv-copied-success-color': '#16a34a',
+        '--w-rjv-curlybraces-color': '#38bdf8',
+        '--w-rjv-colon-color': 'hsl(var(--foreground))',
+        '--w-rjv-brackets-color': '#38bdf8',
+        '--w-rjv-quotes-color': '#f59e0b',
+        '--w-rjv-quotes-string-color': 'var(--w-rjv-type-string-color)',
+        '--w-rjv-type-string-color': '#f59e0b',
+        '--w-rjv-type-int-color': '#38bdf8',
+        '--w-rjv-type-float-color': '#38bdf8',
+        '--w-rjv-type-bigint-color': '#38bdf8',
+        '--w-rjv-type-boolean-color': '#22c55e',
+        '--w-rjv-type-date-color': '#a3b6cc',
+        '--w-rjv-type-url-color': '#60a5fa',
+        '--w-rjv-type-null-color': '#fb7185',
+        '--w-rjv-type-nan-color': '#fb7185',
+        '--w-rjv-type-undefined-color': '#a3b6cc',
+      }) as React.CSSProperties,
+    []
+  );
 
   const runAction = async () => {
     if (!canRun) {
-      setOutput('Please fill TIGER_ID / ACCOUNT / PRIVATE_KEY first.');
+      setOutput({ error: 'Please fill TIGER_ID / ACCOUNT / PRIVATE_KEY first.' });
       return;
     }
 
     setLoading(true);
-    setOutput('Loading...');
+    setOutput({ status: 'Loading...' });
 
     try {
       const client = createTigerClient({
@@ -107,17 +163,11 @@ export default function Home() {
           result = { message: `Unknown action: ${action as string}` };
       }
 
-      setOutput(JSON.stringify(result, null, 2));
+      setOutput(normalizeOutput(result));
     } catch (error) {
-      setOutput(
-        JSON.stringify(
-          {
-            message: error instanceof Error ? error.message : String(error),
-          },
-          null,
-          2
-        )
-      );
+      setOutput({
+        error: error instanceof Error ? error.message : String(error),
+      });
     } finally {
       setLoading(false);
     }
@@ -125,14 +175,24 @@ export default function Home() {
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-6xl p-4 sm:p-6">
-      <Card className="mx-auto mt-6 border-white/40 bg-white/75 shadow-xl backdrop-blur dark:border-white/10 dark:bg-slate-900/70">
+      <Card className="mx-auto mt-6 border-emerald-200/70 bg-white/78 shadow-xl shadow-cyan-300/20 backdrop-blur dark:border-amber-300/20 dark:bg-slate-900/72 dark:shadow-cyan-500/10">
         <CardHeader className="gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
-            <CardTitle className="text-2xl tracking-tight">Tiger OpenAPI Playground</CardTitle>
-            <CardDescription>
-              Browser debugger for <code>tiger-openapi/browser</code>. Credentials stay in memory
-              only.
-            </CardDescription>
+            <div className="flex items-center justify-start gap-3">
+              <Image
+                src="/tiger-openapi-icon.svg"
+                alt="Tiger OpenAPI icon"
+                width={40}
+                height={40}
+              />
+              <div className="flex flex-col">
+                <CardTitle className="text-2xl tracking-tight">Tiger OpenAPI Playground</CardTitle>
+                <CardDescription>
+                  Browser debugger for <code>tiger-openapi/browser</code>. Credentials stay in
+                  memory only.
+                </CardDescription>
+              </div>
+            </div>
           </div>
           <ThemeToggle />
         </CardHeader>
@@ -213,9 +273,17 @@ export default function Home() {
             {loading ? 'Running...' : 'Run'}
           </Button>
 
-          <pre className="max-h-[460px] overflow-auto rounded-lg border bg-slate-950 p-4 text-xs text-slate-100">
-            {output}
-          </pre>
+          <div className="max-h-[460px] overflow-auto rounded-lg border border-emerald-200/70 bg-white/72 p-3 dark:border-amber-300/20 dark:bg-slate-950/80">
+            <JsonView
+              value={output}
+              collapsed={1}
+              displayDataTypes={false}
+              displayObjectSize={false}
+              enableClipboard
+              shortenTextAfterLength={120}
+              style={jsonViewStyle}
+            />
+          </div>
         </CardContent>
       </Card>
     </main>

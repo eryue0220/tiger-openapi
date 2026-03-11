@@ -7,6 +7,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Tiger OpenAPI Playground',
   description: 'Debug tiger-openapi directly in your browser.',
+  icons: {
+    icon: '/tiger-openapi-icon.svg',
+  },
 };
 
 export default function RootLayout({
