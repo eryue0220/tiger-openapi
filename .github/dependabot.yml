@@ -31,7 +31,6 @@ updates:
         patterns:
           - 'typescript'
           - 'typescript-eslint'
-          - '@types/*'
 
       eslint:
         patterns:
@@ -46,3 +45,10 @@ updates:
         patterns:
           - 'vitest'
           - '@vitest/*'
+
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
