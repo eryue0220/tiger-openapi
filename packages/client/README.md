@@ -1,10 +1,11 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi/main/assets/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
+  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi/main/playground/public/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
 </p>
 
 # tiger-openapi
 
 ===
+
 [![GitHub license](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green)](https://github.com/eryue0220/tiger-openapi/blob/main/LICENSE)
 [![CI](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml/badge.svg)](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/tiger-openapi.svg)](https://www.npmjs.com/package/tiger-openapi)
