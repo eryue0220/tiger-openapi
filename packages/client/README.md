@@ -1,10 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi/main/playground/public/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
+  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi/HEAD/playground/public/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
 </p>
 
 # tiger-openapi
-
-===
 
 [![GitHub license](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green)](https://github.com/eryue0220/tiger-openapi/blob/main/LICENSE)
 [![CI](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml/badge.svg)](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml)
@@ -209,3 +207,7 @@ This is still development.
 ## References
 
 - [Tiger OpenAPI Docs](https://docs-en.itigerup.com/docs/overview)
+
+# License
+
+Licensed under the GPL-3.0
