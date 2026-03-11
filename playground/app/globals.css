@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 28% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 28% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 28% 18%;
+    --primary: 148 73% 36%;
+    --primary-foreground: 160 60% 98%;
+    --secondary: 212 40% 95%;
+    --secondary-foreground: 222 22% 26%;
+    --muted: 210 30% 94%;
+    --muted-foreground: 216 12% 42%;
+    --accent: 39 93% 92%;
+    --accent-foreground: 222 24% 22%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 84%;
+    --input: 214 32% 84%;
+    --ring: 198 86% 42%;
+    --radius: 0.9rem;
+  }
+
+  .dark {
+    --background: 223 44% 9%;
+    --foreground: 160 20% 95%;
+    --card: 220 40% 12%;
+    --card-foreground: 160 20% 95%;
+    --popover: 220 40% 12%;
+    --popover-foreground: 160 20% 95%;
+    --primary: 154 71% 43%;
+    --primary-foreground: 220 43% 10%;
+    --secondary: 219 24% 19%;
+    --secondary-foreground: 160 14% 88%;
+    --muted: 219 24% 18%;
+    --muted-foreground: 214 10% 67%;
+    --accent: 36 91% 52%;
+    --accent-foreground: 220 43% 10%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 218 23% 28%;
+    --input: 218 23% 28%;
+    --ring: 198 83% 53%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.12), transparent 36%),
+      radial-gradient(circle at 86% 12%, rgba(16, 185, 129, 0.15), transparent 35%),
+      radial-gradient(circle at 52% 86%, rgba(245, 158, 11, 0.1), transparent 34%);
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(circle at 14% 11%, rgba(22, 163, 74, 0.18), transparent 36%),
+      radial-gradient(circle at 88% 9%, rgba(56, 189, 248, 0.2), transparent 38%),
+      radial-gradient(circle at 50% 88%, rgba(245, 158, 11, 0.14), transparent 34%),
+      linear-gradient(180deg, rgba(8, 15, 30, 0.54), rgba(8, 15, 30, 0.28));
+  }
+}

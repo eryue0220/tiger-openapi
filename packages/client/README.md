@@ -1,4 +1,13 @@
-# tiger-openapi &middot; [![GitHub license](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green)](https://github.com/eryue0220/tiger-openapi/blob/main/LICENSE)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi/main/assets/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
+</p>
+
+# tiger-openapi
+
+===
+[![GitHub license](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green)](https://github.com/eryue0220/tiger-openapi/blob/main/LICENSE)
+[![CI](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml/badge.svg)](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/tiger-openapi.svg)](https://www.npmjs.com/package/tiger-openapi)
 
 TypeScript monorepo for building a Tiger OpenAPI SDK across multiple runtimes and deployment environments.
 
@@ -183,7 +192,13 @@ console.log('accountBalance::', accountBalance);
 For more details please check the [API document](https://docs-en.itigerup.com/docs/get-contract) about warrant.
 
 ```typescript
+// 1. getContract
+const contract = await client.order.getContract({ symbol: 'AAPL', sec_type: 'STK' });
+logResult('getContract', contract);
 
+// 2. getContracts
+const contracts = await client.order.getContracts({ symbols: ['AAPL'], sec_type: 'STK' });
+logResult('getContracts', contracts);
 ```
 
 ## Stream
