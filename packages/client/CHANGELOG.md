@@ -1,5 +1,11 @@
 # tiger-openapi
 
+## 0.3.0
+
+### Minor Changes
+
+- aa30e68: add options & stock & warrants and etc query api
+
 ## 0.2.0
 
 ### Minor Changes
