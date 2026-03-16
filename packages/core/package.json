@@ -21,7 +21,7 @@
     "typecheck": "tsc -b ."
   },
   "dependencies": {
-    "dayjs": "^1.11.19",
+    "dayjs": "^1.11.20",
     "tiger-openapi-http": "workspace:*",
     "tiger-openapi-pb": "workspace:*",
     "tiger-openapi-stream": "workspace:*",
