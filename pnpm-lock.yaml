@@ -94,8 +94,8 @@ importers:
         specifier: ^16.4.5
         version: 16.6.1
       tiger-openapi:
-        specifier: workspace:^
-        version: link:../client
+        specifier: ^0.3.1
+        version: 0.3.1
 
   packages/client:
     devDependencies:
@@ -2615,6 +2615,9 @@ packages:
   thenify@3.3.1:
     resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
 
+  tiger-openapi@0.3.1:
+    resolution: {integrity: sha512-Kp6wsAuIQlOUJoeGfZ5Vm07dsbVxflqWhlPXaZU9KEfjO1Nd5oxaDC9eHwGS/gMIesH/StX1PUt5ZceFMGYhfQ==}
+
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -5025,6 +5028,8 @@ snapshots:
   thenify@3.3.1:
     dependencies:
       any-promise: 1.3.0
+
+  tiger-openapi@0.3.1: {}
 
   tinybench@2.9.0: {}
 

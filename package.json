@@ -1,5 +1,5 @@
 {
-  "name": "tiger-openapi",
+  "name": "tiger-openapi-monorepo",
   "private": true,
   "description": "Monorepo workspace for the Tiger OpenAPI SDK.",
   "type": "module",

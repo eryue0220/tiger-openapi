@@ -1,7 +1,7 @@
 {
   "name": "tiger-openapi-cli",
   "jsrName": "@eryue0220/tiger-openapi-cli",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "CLI for the Tiger OpenAPI SDK.",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,7 +23,7 @@
   "dependencies": {
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "tiger-openapi": "workspace:^"
+    "tiger-openapi": "^0.3.1"
   },
   "author": "eryue0220<eryue0220@gmail.com>",
   "license": "GPL-3.0-only",
