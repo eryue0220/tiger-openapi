@@ -1,12 +1,10 @@
 {
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "name": "@eryue0220/tiger-openapi-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "GPL-3.0-only",
   "exports": { ".": "./dist/index.js" },
-  "imports": {
-    "tiger-openapi": "npm:tiger-openapi@^0.3.1"
-  },
+  "imports": { "tiger-openapi": "npm:tiger-openapi@^0.3.1" },
   "exclude": ["src/**", "tests/**"],
   "publish": { "exclude": ["!dist", "!dist/**"] }
 }
