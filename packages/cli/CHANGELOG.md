@@ -4,6 +4,14 @@
 
 ### Patch Changes
 
+- 0fb4dc4: fix deps issue
+- Updated dependencies [0fb4dc4]
+  - tiger-openapi@0.3.2
+
+## 0.2.4
+
+### Patch Changes
+
 - fix release issue
 - Updated dependencies
   - tiger-openapi@0.3.3
