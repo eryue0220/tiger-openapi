@@ -62,6 +62,9 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Verify tiger-openapi package bundles internal core
+        run: node ./scripts/verify-packed-client.mjs
+
       - name: Run typecheck
         run: pnpm typecheck
 

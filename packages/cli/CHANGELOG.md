@@ -17,6 +17,9 @@
 ### Patch Changes
 
 - 1455c42: fix release issue
+- fix deps issue
+- Updated dependencies
+  - tiger-openapi@0.3.2
 
 ## 0.2.0
 

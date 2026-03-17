@@ -74,6 +74,9 @@ jobs:
       - name: Build publishable package and workspace dependencies
         run: pnpm turbo run build
 
+      - name: Verify tiger-openapi package bundles internal core
+        run: node ./scripts/verify-packed-client.mjs
+
       - name: Create release PR or publish packages
         uses: changesets/action@v1
         with:
