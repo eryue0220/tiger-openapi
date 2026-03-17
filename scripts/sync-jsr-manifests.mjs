@@ -44,6 +44,21 @@ function resolveWorkspaceConstraint(range, version) {
   return undefined;
 }
 
+function resolveWorkspaceImportConstraint(range, version) {
+  const workspaceConstraint = resolveWorkspaceConstraint(range, version);
+  if (workspaceConstraint) {
+    return workspaceConstraint;
+  }
+
+  // Keep non-workspace semver ranges in sync too
+  // (e.g. "^0.3.3" for tiger-openapi in the CLI package).
+  if (typeof range === 'string' && range.length > 0) {
+    return range;
+  }
+
+  return undefined;
+}
+
 function getWorkspaceImports(packageJson, workspaceVersions) {
   const imports = {};
   const sections = ['dependencies', 'optionalDependencies', 'peerDependencies'];
@@ -55,7 +70,7 @@ function getWorkspaceImports(packageJson, workspaceVersions) {
         continue;
       }
 
-      const constraint = resolveWorkspaceConstraint(range, version);
+      const constraint = resolveWorkspaceImportConstraint(range, version);
       if (!constraint) {
         continue;
       }

@@ -3,4 +3,4 @@
 'tiger-openapi-cli': patch
 ---
 
-fix release issue
+fix release deps issue
