@@ -34,6 +34,7 @@ try {
   const packedIndexJs = tarResult.stdout ?? '';
 
   if (packedIndexJs.includes('tiger-openapi-core')) {
+    console.log(packedIndexJs);
     throw new Error('Packed tiger-openapi still references tiger-openapi-core.');
   }
 
