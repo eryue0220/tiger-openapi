@@ -1,11 +1,5 @@
 # tiger-openapi
 
-## 0.3.2
-
-### Patch Changes
-
-- fix release deps issue
-
 ## 0.3.1
 
 ### Patch Changes

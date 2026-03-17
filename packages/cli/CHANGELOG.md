@@ -1,13 +1,5 @@
 # tiger-openapi-cli
 
-## 0.2.4
-
-### Patch Changes
-
-- fix release deps issue
-- Updated dependencies
-  - tiger-openapi@0.3.2
-
 ## 0.2.3
 
 ### Patch Changes
