@@ -6,7 +6,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green)](https://github.com/eryue0220/tiger-openapi/blob/main/LICENSE)
 [![CI](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml/badge.svg)](https://github.com/eryue0220/tiger-openapi/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/tiger-openapi.svg)](https://www.npmjs.com/package/tiger-openapi)
+[![npm version](https://img.shields.io/npm/v/tiger-openapi-cli.svg)](https://www.npmjs.com/package/tiger-openapi-cli)
 
 `tiger-openapi-cli` is a command-line tool built on top of the `tiger-openapi` SDK. It helps you quickly validate configuration and query account and market data (stocks, options, funds, crypto, futures, warrants, and more).
 
