@@ -24,7 +24,50 @@ async function formatJson(value) {
   return prettier.format(JSON.stringify(value), { parser: 'json' });
 }
 
-async function syncManifest(packageDir) {
+function resolveWorkspaceConstraint(range, version) {
+  if (range === 'workspace:*') {
+    return `^${version}`;
+  }
+
+  if (range === 'workspace:^') {
+    return `^${version}`;
+  }
+
+  if (range === 'workspace:~') {
+    return `~${version}`;
+  }
+
+  if (range.startsWith('workspace:')) {
+    return range.replace(/^workspace:/, '');
+  }
+
+  return undefined;
+}
+
+function getWorkspaceImports(packageJson, workspaceVersions) {
+  const imports = {};
+  const sections = ['dependencies', 'optionalDependencies', 'peerDependencies'];
+
+  for (const section of sections) {
+    for (const [name, range] of Object.entries(packageJson[section] ?? {})) {
+      const version = workspaceVersions.get(name);
+      if (!version) {
+        continue;
+      }
+
+      const constraint = resolveWorkspaceConstraint(range, version);
+      if (!constraint) {
+        continue;
+      }
+
+      imports[name] = `npm:${name}@${constraint}`;
+    }
+  }
+
+  return imports;
+}
+
+async function syncManifest(packageDir, workspaceVersions) {
   const packageJsonPath = path.join(packageDir, 'package.json');
   const jsrJsonPath = path.join(packageDir, 'jsr.json');
   const packageJson = readJson(packageJsonPath);
@@ -40,6 +83,13 @@ async function syncManifest(packageDir) {
     name: jsrName,
     version: packageJson.version,
   };
+  const workspaceImports = getWorkspaceImports(packageJson, workspaceVersions);
+  if (Object.keys(workspaceImports).length > 0) {
+    nextJsrJson.imports = {
+      ...(nextJsrJson.imports ?? {}),
+      ...workspaceImports,
+    };
+  }
 
   const current = await formatJson(jsrJson);
   const next = await formatJson(nextJsrJson);
@@ -56,7 +106,20 @@ async function syncManifest(packageDir) {
 }
 
 const packageDirs = await getPackageDirs();
+const workspaceVersions = new Map();
 
 for (const packageDir of packageDirs) {
-  await syncManifest(packageDir);
+  const packageJsonPath = path.join(packageDir, 'package.json');
+  if (!existsSync(packageJsonPath)) {
+    continue;
+  }
+
+  const packageJson = readJson(packageJsonPath);
+  if (packageJson.name && packageJson.version) {
+    workspaceVersions.set(packageJson.name, packageJson.version);
+  }
+}
+
+for (const packageDir of packageDirs) {
+  await syncManifest(packageDir, workspaceVersions);
 }

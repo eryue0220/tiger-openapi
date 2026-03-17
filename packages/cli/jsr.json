@@ -4,6 +4,9 @@
   "version": "0.2.0",
   "license": "GPL-3.0-only",
   "exports": { ".": "./dist/index.js" },
+  "imports": {
+    "tiger-openapi": "npm:tiger-openapi@^0.3.1"
+  },
   "exclude": ["src/**", "tests/**"],
   "publish": { "exclude": ["!dist", "!dist/**"] }
 }
