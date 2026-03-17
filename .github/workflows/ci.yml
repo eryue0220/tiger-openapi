@@ -31,8 +31,12 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies (pull request)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Install dependencies (release PR)
+        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title == 'chore: release packages' }}"
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install dependencies (normal PR)
+        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title != 'chore: release packages' }}"
         run: pnpm install --frozen-lockfile
 
       - name: Install dependencies (push)
@@ -61,8 +65,12 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies (pull request)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Install dependencies (release PR)
+        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title == 'chore: release packages' }}"
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install dependencies (normal PR)
+        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title != 'chore: release packages' }}"
         run: pnpm install --frozen-lockfile
 
       - name: Install dependencies (push)
@@ -103,8 +111,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
 
-      - name: Install dependencies (pull request)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Install dependencies (release PR)
+        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title == 'chore: release packages' }}"
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install dependencies (normal PR)
+        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title != 'chore: release packages' }}"
         run: pnpm install --frozen-lockfile
 
       - name: Install dependencies (push)
