@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import prettier from 'prettier';
@@ -29,7 +29,7 @@ async function syncManifest(packageDir) {
   const jsrJsonPath = path.join(packageDir, 'jsr.json');
   const packageJson = readJson(packageJsonPath);
 
-  if (packageJson.private) {
+  if (packageJson.private || !existsSync(jsrJsonPath)) {
     return;
   }
 

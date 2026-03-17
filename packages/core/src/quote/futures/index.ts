@@ -1,2 +1,24 @@
 export { createQuoteFuturesClient, QuoteFuturesClient } from './client.js';
-export type * from './types.js';
+export type {
+  FutureAllContractsParams,
+  FutureAllContractsResponse,
+  FutureBarsByPageParams,
+  FutureBarsParams,
+  FutureBarsResponse,
+  FutureBriefParams,
+  FutureBriefResponse,
+  FutureContinuousContractsParams,
+  FutureContinuousContractsResponse,
+  FutureContractParams,
+  FutureContractResponse,
+  FutureContractsParams,
+  FutureContractsResponse,
+  FutureCurrentContractParams,
+  FutureCurrentContractResponse,
+  FutureDepthParams,
+  FutureDepthResponse,
+  FutureExchangesParams,
+  FutureExchangesResponse,
+  FutureTradeTicksParams,
+  FutureTradeTicksResponse,
+} from './types.js';

@@ -1,2 +1,21 @@
 export { createQuoteOptionsClient, QuoteOptionsClient } from './client.js';
-export type * from './types.js';
+export type {
+  OptionExpirationsParams,
+  OptionExpirationsResponse,
+  OptionBriefsParams,
+  OptionBriefsResponse,
+  OptionChainParams,
+  OptionChainResponse,
+  OptionDepthParams,
+  OptionDepthResponse,
+  OptionSymbolsParams,
+  OptionSymbolsResponse,
+  OptionTimelineParams,
+  OptionTimelineResponse,
+  OptionTradeTicksParams,
+  OptionTradeTicksResponse,
+  OptionBarsParams,
+  OptionBarsResponse,
+  OptionAnalysisParams,
+  OptionAnalysisResponse,
+} from './types.js';
