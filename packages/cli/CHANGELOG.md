@@ -1,5 +1,14 @@
 # tiger-openapi-cli
 
+## 0.2.1
+
+### Patch Changes
+
+- 1455c42: fix release issue
+- fix deps issue
+- Updated dependencies
+  - tiger-openapi@0.3.2
+
 ## 0.2.0
 
 ### Minor Changes
