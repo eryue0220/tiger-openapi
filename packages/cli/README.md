@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi/HEAD/playground/public/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
+  <img src="https://raw.githubusercontent.com/eryue0220/tiger-openapi-cli/HEAD/playground/public/tiger-openapi-icon.svg" alt="Tiger OpenAPI icon" width="172" height="172" />
 </p>
 
 # tiger-openapi-cli
