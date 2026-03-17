@@ -34,7 +34,7 @@
     "release:jsr": "node ./scripts/publish-jsr.mjs",
     "release:npm": "changeset publish",
     "typecheck": "turbo run typecheck",
-    "version-packages": "changeset version && node ./scripts/sync-jsr-manifests.mjs"
+    "version-packages": "changeset version && node ./scripts/sync-jsr-manifests.mjs && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
