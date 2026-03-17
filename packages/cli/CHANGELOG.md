@@ -1,5 +1,11 @@
 # tiger-openapi-cli
 
+## 0.2.2
+
+### Patch Changes
+
+- fix dep issue
+
 ## 0.2.1
 
 ### Patch Changes
