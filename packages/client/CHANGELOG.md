@@ -1,5 +1,11 @@
 # tiger-openapi
 
+## 0.3.1
+
+### Patch Changes
+
+- 63f188c: release tiger-openapi cli
+
 ## 0.3.0
 
 ### Minor Changes
