@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- d2cc6fb: fix release issue
+
+## 0.3.2
+
+### Patch Changes
+
 - 0fb4dc4: fix deps issue
 
 ## 0.3.3
