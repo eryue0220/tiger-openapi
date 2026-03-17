@@ -96,9 +96,6 @@ importers:
       tiger-openapi:
         specifier: workspace:*
         version: link:../client
-      tiger-openapi-core:
-        specifier: workspace:*
-        version: link:../core
 
   packages/client:
     devDependencies:
