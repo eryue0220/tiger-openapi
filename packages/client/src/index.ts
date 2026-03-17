@@ -6,6 +6,7 @@ import type {
 } from 'tiger-openapi-core';
 
 export type * from 'tiger-openapi-core';
+export type { TigerClient as TigerClientApi } from 'tiger-openapi-core';
 
 export interface TigerRuntimeOverrides extends Omit<CoreTigerRuntimeOverrides, 'createWebSocket'> {
   createWebSocket?: TigerWebSocketFactory;

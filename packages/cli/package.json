@@ -1,0 +1,34 @@
+{
+  "name": "tiger-openapi-cli",
+  "jsrName": "@eryue0220/tiger-openapi-cli",
+  "version": "0.1.0",
+  "description": "CLI for the Tiger OpenAPI SDK.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "tiger-openapi": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -b .",
+    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
+    "typecheck": "tsc -b ."
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "tiger-openapi": "workspace:*"
+  },
+  "author": "eryue0220<eryue0220@gmail.com>",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eryue0220/tiger-openapi.git"
+  }
+}

@@ -1,2 +1,27 @@
 export { createAccountClient, AccountClient } from './client.js';
-export type * from './types.js';
+export type {
+  ManagedAccountsParams,
+  ManagedAccountsResponse,
+  PrimeAssetsParams,
+  PrimeAssetsResponse,
+  AssetsParams,
+  AssetsResponse,
+  PositionsParams,
+  PositionsResponse,
+  AnalyticsAssetParams,
+  AnalyticsAssetResponse,
+  SegmentFundAvailableParams,
+  SegmentFundAvailableResponse,
+  TransferSegmentFundParams,
+  TransferSegmentFundResponse,
+  CancelSegmentFundParams,
+  CancelSegmentFundResponse,
+  SegmentFundHistoryParams,
+  SegmentFundHistoryResponse,
+  EstimateTradableQuantityParams,
+  EstimateTradableQuantityResponse,
+  FundingHistoryParams,
+  FundingHistoryResponse,
+  FundDetailsParams,
+  FundDetailsResponse,
+} from './types.js';
