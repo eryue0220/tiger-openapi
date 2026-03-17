@@ -94,7 +94,7 @@ importers:
         specifier: ^16.4.5
         version: 16.6.1
       tiger-openapi:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../client
 
   packages/client:

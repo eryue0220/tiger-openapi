@@ -23,7 +23,7 @@
   "dependencies": {
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "tiger-openapi": "workspace:*"
+    "tiger-openapi": "workspace:^"
   },
   "author": "eryue0220<eryue0220@gmail.com>",
   "license": "GPL-3.0-only",
