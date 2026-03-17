@@ -16,9 +16,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc -b .",
-    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
-    "typecheck": "tsc -b ."
+    "build": "tsup && node ./scripts/add-jsr-self-types.mjs",
+    "dev": "tsup --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "commander": "^12.1.0",
