@@ -31,13 +31,13 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies (release PR)
-        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title == 'chore: release packages' }}"
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Install dependencies
-        if: "${{ github.event_name != 'pull_request' || github.event.pull_request.title != 'chore: release packages' }}"
+      - name: Install dependencies (pull request)
+        if: ${{ github.event_name == 'pull_request' }}
         run: pnpm install --frozen-lockfile
+
+      - name: Install dependencies (push)
+        if: ${{ github.event_name == 'push' }}
+        run: pnpm install --no-frozen-lockfile
 
       - name: Check formatting
         run: pnpm format:check
@@ -61,13 +61,13 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies (release PR)
-        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title == 'chore: release packages' }}"
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Install dependencies
-        if: "${{ github.event_name != 'pull_request' || github.event.pull_request.title != 'chore: release packages' }}"
+      - name: Install dependencies (pull request)
+        if: ${{ github.event_name == 'pull_request' }}
         run: pnpm install --frozen-lockfile
+
+      - name: Install dependencies (push)
+        if: ${{ github.event_name == 'push' }}
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build packages
         run: pnpm build
@@ -103,13 +103,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
 
-      - name: Install dependencies (release PR)
-        if: "${{ github.event_name == 'pull_request' && github.event.pull_request.title == 'chore: release packages' }}"
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Install dependencies
-        if: "${{ github.event_name != 'pull_request' || github.event.pull_request.title != 'chore: release packages' }}"
+      - name: Install dependencies (pull request)
+        if: ${{ github.event_name == 'pull_request' }}
         run: pnpm install --frozen-lockfile
+
+      - name: Install dependencies (push)
+        if: ${{ github.event_name == 'push' }}
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run test coverage
         run: pnpm test:coverage
