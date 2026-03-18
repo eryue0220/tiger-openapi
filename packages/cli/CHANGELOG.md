@@ -1,5 +1,11 @@
 # tiger-openapi-cli
 
+## 0.2.5
+
+### Patch Changes
+
+- 2144f63: update ci function
+
 ## 0.2.4
 
 ### Patch Changes
