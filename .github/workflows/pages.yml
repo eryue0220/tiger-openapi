@@ -38,7 +38,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Playground
-        run: pnpm --filter tiger-openapi-playground build
+        run: pnpm build
 
       - name: Upload static artifact
         uses: actions/upload-pages-artifact@v4
