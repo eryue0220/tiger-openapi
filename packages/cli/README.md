@@ -146,6 +146,80 @@ Optional arguments:
 - `--page`: page number, default `1`
 - `--page_size`: page size, default `20`
 
+## Order Commands
+
+The `order` command group maps to the SDK order APIs for order placement, query, modification, cancellation, preview, transactions, and contract lookup.
+
+### Place / Preview / Modify / Cancel
+
+```bash
+# Place order
+tiger-openapi order place \
+  --action BUY \
+  --order_type LMT \
+  --symbol AAPL \
+  --sec_type STK \
+  --total_quantity 1 \
+  --limit_price 180
+
+# Preview order
+tiger-openapi order preview \
+  --action BUY \
+  --order_type LMT \
+  --symbol AAPL \
+  --sec_type STK \
+  --total_quantity 1 \
+  --limit_price 180
+
+# Modify order
+tiger-openapi order modify \
+  --id 123456 \
+  --order_type LMT \
+  --limit_price 181
+
+# Cancel order
+tiger-openapi order cancel --id 123456
+```
+
+### Query Orders
+
+```bash
+# Query one order by id/order_id
+tiger-openapi order query --id 123456
+
+# Query orders list
+tiger-openapi order query \
+  --market US \
+  --symbol AAPL \
+  --states FILLED,CANCELLED \
+  --limit 20
+
+# Query open / cancelled / filled orders
+tiger-openapi order open --market US --symbol AAPL
+tiger-openapi order cancelled --market US --symbol AAPL
+tiger-openapi order filled --market US --symbol AAPL
+```
+
+### Transactions and Contracts
+
+```bash
+# Order transactions
+tiger-openapi order transactions --order_id 100001 --limit 20
+
+# Contract lookup (single or comma-separated symbols)
+tiger-openapi order contract --symbol AAPL --sec_type STK
+tiger-openapi order contract --symbol AAPL,TSLA --sec_type STK
+
+# Contracts lookup
+tiger-openapi order contracts --symbols AAPL,TSLA --sec_type STK
+
+# Derivative contracts lookup
+tiger-openapi order derivative-contracts \
+  --symbol AAPL \
+  --sec_type OPT \
+  --expiry 2026-03-20
+```
+
 ## Common Override Flags
 
 Most query commands support the following override flags (for temporary overrides):
