@@ -3,7 +3,8 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "tsconfig.tsbuildinfo", "out/**", ".next/**"]
+      "outputs": ["dist/**", "tsconfig.tsbuildinfo", "out/**", ".next/**"],
+      "cache": false
     },
     "typecheck": {
       "dependsOn": ["^typecheck"],

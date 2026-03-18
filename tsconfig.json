@@ -6,6 +6,7 @@
     { "path": "./packages/pb" },
     { "path": "./packages/stream" },
     { "path": "./packages/core" },
-    { "path": "./packages/client" }
+    { "path": "./packages/client" },
+    { "path": "./packages/cli" }
   ]
 }
