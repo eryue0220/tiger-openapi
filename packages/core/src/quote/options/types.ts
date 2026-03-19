@@ -37,17 +37,27 @@ export interface OptionBriefsResponse {
   sellingReturn: number;
 }
 
-export interface OptionChainParams {
-  option_basic: Array<{
-    symbol: string;
-    expiry: string | number;
-    right: TigerOptionRight;
-    strike: string | number;
-  }>;
-  option_filter?: unknown;
-  return_greek_value?: boolean;
-  market?: TigerMarket;
-}
+export type OptionChainParams =
+  | {
+      option_basic: Array<{
+        symbol: string;
+        expiry: string | number;
+        right: TigerOptionRight;
+        strike?: string | number;
+      }>;
+      option_filter?: unknown;
+      return_greek_value?: boolean;
+      market?: TigerMarket;
+    }
+  | {
+      symbol: string;
+      expiry: string | number;
+      right?: TigerOptionRight;
+      strike?: string | number;
+      option_filter?: unknown;
+      return_greek_value?: boolean;
+      market?: TigerMarket;
+    };
 
 interface OptionsItem {
   identifier: string;
@@ -75,13 +85,13 @@ export interface OptionChainResponse {
 }
 
 export interface OptionDepthParams {
-  option_basic: Array<{
+  options_basic: Array<{
     symbol: string;
-    expiry: string | number;
-    right: TigerOptionRight;
-    strike: string | number;
+    expiry?: string | number;
+    right?: TigerOptionRight;
+    strike?: string | number;
   }>;
-  market: TigerMarket;
+  market?: TigerMarket;
   timezone?: string;
 }
 
@@ -92,12 +102,12 @@ export interface OptionDepthResponse {
   [key: string]: unknown;
 }
 
-export interface OptionTradeTicksParams {
+export type OptionTradeTicksParams = Array<{
   symbol: string;
   expiry: string | number;
   right: TigerOptionRight;
   strike: string | number;
-}
+}>;
 
 export interface OptionTradeTicksResponse {
   symbol: string;
@@ -120,6 +130,7 @@ export interface OptionBarsParams {
     begin_time: string | number;
     end_time: string | number;
   }>;
+  market?: TigerMarket;
 }
 
 export interface OptionBarsResponse extends Omit<OptionTradeTicksResponse, 'items'> {
