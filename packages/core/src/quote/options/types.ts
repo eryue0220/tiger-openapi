@@ -37,27 +37,17 @@ export interface OptionBriefsResponse {
   sellingReturn: number;
 }
 
-export type OptionChainParams =
-  | {
-      option_basic: Array<{
-        symbol: string;
-        expiry: string | number;
-        right: TigerOptionRight;
-        strike?: string | number;
-      }>;
-      option_filter?: unknown;
-      return_greek_value?: boolean;
-      market?: TigerMarket;
-    }
-  | {
-      symbol: string;
-      expiry: string | number;
-      right?: TigerOptionRight;
-      strike?: string | number;
-      option_filter?: unknown;
-      return_greek_value?: boolean;
-      market?: TigerMarket;
-    };
+export interface OptionChainParams {
+  option_basic: Array<{
+    symbol: string;
+    expiry: string | number;
+    right?: TigerOptionRight;
+    strike?: string | number;
+  }>;
+  option_filter?: unknown;
+  return_greek_value?: boolean;
+  market?: TigerMarket;
+}
 
 interface OptionsItem {
   identifier: string;

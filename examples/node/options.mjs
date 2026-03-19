@@ -31,7 +31,7 @@ async function main() {
   console.log('optionChain::', optionChain);
 
   const optionDepth = await client.quote.options.getOptionDepth({
-    options_basic: [{ symbol: 'AAPL' }],
+    option_basic: [{ symbol: 'AAPL' }],
   });
   console.log('optionDepth::', optionDepth);
 

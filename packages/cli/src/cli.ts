@@ -538,8 +538,7 @@ Or use: tiger-openapi config --tiger_id X --account Y --private_key Z`
         await withClient(opts, async (client) => {
           if (opts.expiry) {
             const res = await client.quote.options.getOptionChain({
-              symbol: opts.symbol,
-              expiry: opts.expiry,
+              option_basic: [{ symbol: opts.symbol, expiry: opts.expiry }],
             });
             printJson(res);
           } else {
