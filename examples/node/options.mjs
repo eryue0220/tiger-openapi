@@ -66,8 +66,8 @@ async function main() {
   });
   console.log('optionTimeline::', optionTimeline);
 
-  // const optionSymbols = await client.quote.options.getOptionSymbols();
-  // console.log('optionSymbols::', optionSymbols);
+  const optionSymbols = await client.quote.options.getOptionSymbols();
+  console.log('optionSymbols::', optionSymbols);
 
   const optionAnalysis = await client.quote.options.getOptionAnalysis({
     symbols: ['AAPL'],
