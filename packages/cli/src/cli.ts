@@ -2,7 +2,7 @@
 
 import { pathToFileURL } from 'node:url';
 import { Command } from 'commander';
-import { TigerClient, type TigerClientApi, type TigerMarket } from 'tiger-openapi';
+import { TigerClient, type TigerClientApi, type TigerMarket, type TigerOptionRight } from 'tiger-openapi';
 import {
   createTigerClientFromEnv,
   loadTigerEnvConfig,
@@ -529,6 +529,13 @@ Or use: tiger-openapi config --tiger_id X --account Y --private_key Z`
     .description('Query options information')
     .requiredOption('-s, --symbol <symbol>', 'Option symbol (e.g. AAPL, TSLA)')
     .option('-e, --expiry <expiry>', 'Expiry date for option chain')
+    .option('-m, --market <market>', 'Market (e.g. US, HK)')
+    .option('-r, --right <right>', 'Option right for option chain (CALL or PUT)')
+    .option('--strike <strike>', 'Strike for option chain')
+    .option(
+      '--return_greek_value <return_greek_value>',
+      'Include greek values in option chain (true or false)'
+    )
     .option('-p, --path <path>', 'Path to .env file')
     .option('-t, --tiger_id <tiger_id>', 'Tiger ID')
     .option('-k, --private_key <private_key>', 'Private key')
@@ -536,13 +543,26 @@ Or use: tiger-openapi config --tiger_id X --account Y --private_key Z`
     .action(async (opts) => {
       try {
         await withClient(opts, async (client) => {
+          const market = opts.market as TigerMarket | undefined;
           if (opts.expiry) {
             const res = await client.quote.options.getOptionChain({
-              option_basic: [{ symbol: opts.symbol, expiry: opts.expiry }],
+              option_basic: [
+                {
+                  symbol: opts.symbol,
+                  expiry: opts.expiry,
+                  right: opts.right as TigerOptionRight | undefined,
+                  strike: opts.strike,
+                },
+              ],
+              return_greek_value: parseOptionalBoolean(opts.return_greek_value),
+              market,
             });
             printJson(res);
           } else {
-            const res = await client.quote.options.getOptionExpirations({ symbols: [opts.symbol] });
+            const res = await client.quote.options.getOptionExpirations({
+              symbols: [opts.symbol],
+              market,
+            });
             printJson(res);
           }
         });

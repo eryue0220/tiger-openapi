@@ -77,12 +77,11 @@ export interface OptionChainResponse {
 export interface OptionDepthParams {
   option_basic: Array<{
     symbol: string;
-    expiry?: string | number;
-    right?: TigerOptionRight;
-    strike?: string | number;
+    expiry: string | number;
+    right: TigerOptionRight;
+    strike: string | number;
   }>;
-  market?: TigerMarket;
-  timezone?: string;
+  market: TigerMarket;
 }
 
 export interface OptionDepthResponse {
