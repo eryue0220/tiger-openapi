@@ -38,13 +38,15 @@ export interface OptionBriefsResponse {
 }
 
 export interface OptionChainParams {
-  symbol: string;
-  expiry: string | number;
+  option_basic: Array<{
+    symbol: string;
+    expiry: string | number;
+    right: TigerOptionRight;
+    strike: string | number;
+  }>;
   option_filter?: unknown;
   return_greek_value?: boolean;
   market?: TigerMarket;
-  timezone?: string;
-  [key: string]: unknown;
 }
 
 interface OptionsItem {
