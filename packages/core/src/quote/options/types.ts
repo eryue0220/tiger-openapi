@@ -75,7 +75,7 @@ export interface OptionChainResponse {
 }
 
 export interface OptionDepthParams {
-  options_basic: Array<{
+  option_basic: Array<{
     symbol: string;
     expiry?: string | number;
     right?: TigerOptionRight;
