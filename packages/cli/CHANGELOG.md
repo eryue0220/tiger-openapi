@@ -1,5 +1,13 @@
 # tiger-openapi-cli
 
+## 0.2.6
+
+### Patch Changes
+
+- 426bba3: fix examples and type check
+- Updated dependencies [426bba3]
+  - tiger-openapi@0.3.3
+
 ## 0.2.5
 
 ### Patch Changes
