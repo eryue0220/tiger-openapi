@@ -3,39 +3,81 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: new URL('./.env.local', import.meta.url).pathname });
 
+function assertRequiredEnv(name) {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required env: ${name}`);
+  }
+  return value;
+}
+
+function logResult(label, result) {
+  console.log(`${label}::`, result?.data ?? result);
+}
+
 async function main() {
+  const account = assertRequiredEnv('ACCOUNT');
   const client = createTigerClient({
-    tigerId: process.env.TIGER_ID,
-    account: process.env.ACCOUNT,
-    privateKey: process.env.PRIVATE_KEY,
+    tigerId: assertRequiredEnv('TIGER_ID'),
+    account,
+    privateKey: assertRequiredEnv('PRIVATE_KEY'),
   });
 
-  const accountInfo = await client.account.getAccountInfo();
-  console.log('accountInfo::', accountInfo);
+  const managedAccounts = await client.account.getManagedAccounts({ account });
+  logResult('getManagedAccounts', managedAccounts);
 
-  const accountBalance = await client.account.getAccountBalance();
-  console.log('accountBalance::', accountBalance);
+  const primeAssets = await client.account.getPrimeAssets({
+    account,
+    base_currency: 'USD',
+    consolidated: true,
+  });
+  logResult('getPrimeAssets', primeAssets);
 
-  const accountPositions = await client.account.getAccountPositions();
-  console.log('accountPositions::', accountPositions);
+  const assets = await client.account.getAssets({ account, market_value: true });
+  logResult('getAssets', assets);
 
-  const accountOrders = await client.account.getAccountOrders();
-  console.log('accountOrders::', accountOrders);
+  const positions = await client.account.getPositions({ account, market: 'US' });
+  logResult('getPositions', positions);
 
-  const accountOpenOrders = await client.account.getAccountOpenOrders();
-  console.log('accountOpenOrders::', accountOpenOrders);
+  const analyticsAsset = await client.account.getAnalyticsAsset({
+    account,
+    start_date: '2026-03-01',
+    end_date: '2026-03-20',
+    seg_type: 'S',
+    currency: 'USD',
+  });
+  logResult('getAnalyticsAsset', analyticsAsset);
 
-  const accountTransactions = await client.account.getAccountTransactions();
-  console.log('accountTransactions::', accountTransactions);
+  const segmentFundAvailable = await client.account.getSegmentFundAvailable({
+    account,
+    from_segment: 'SEC',
+    currency: 'USD',
+  });
+  logResult('getSegmentFundAvailable', segmentFundAvailable);
 
-  const accountFundingHistory = await client.account.getAccountFundingHistory();
-  console.log('accountFundingHistory::', accountFundingHistory);
+  const segmentFundHistory = await client.account.getSegmentFundHistory({ account, limit: 10 });
+  logResult('getSegmentFundHistory', segmentFundHistory);
 
-  const accountFundingDetails = await client.account.getAccountFundingDetails();
-  console.log('accountFundingDetails::', accountFundingDetails);
+  const estimateTradableQuantity = await client.account.getEstimateTradableQuantity({
+    account,
+    symbol: 'AAPL',
+    sec_type: 'STK',
+    action: 'BUY',
+    order_type: 'LMT',
+    limit_price: 1,
+    seg_type: 'SEC',
+  });
+  logResult('getEstimateTradableQuantity', estimateTradableQuantity);
 
-  const accountFundingTransactions = await client.account.getAccountFundingTransactions();
-  console.log('accountFundingTransactions::', accountFundingTransactions);
+  const fundingHistory = await client.account.getFundingHistory({ account, seg_type: 'SEC' });
+  logResult('getFundingHistory', fundingHistory);
+
+  const fundDetails = await client.account.getFundDetails({
+    account,
+    seg_types: ['SEC'],
+    limit: 20,
+  });
+  logResult('getFundDetails', fundDetails);
 }
 
 main().catch((err) => {

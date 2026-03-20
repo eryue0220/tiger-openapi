@@ -23,7 +23,7 @@ async function probeQuoteWarrants() {
     page: 1,
     page_size: 10,
   });
-  console.log('warrantFilter::', warrantFilter.data.items[0], warrantFilter.data.bounds);
+  console.log('warrantFilter::', warrantFilter);
 }
 
 async function main() {

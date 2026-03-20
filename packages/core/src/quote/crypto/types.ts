@@ -1,5 +1,10 @@
 export type CryptoSecType = 'CC';
 
+export interface CryptoSymbolsParams {
+  market: string;
+  sec_type?: CryptoSecType;
+}
+
 export type CryptoSymbolsResponse = string;
 
 export interface CryptoBriefsParams {

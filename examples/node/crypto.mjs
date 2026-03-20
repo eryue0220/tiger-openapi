@@ -13,7 +13,7 @@ async function probeQuoteCrypto() {
     privateKey: process.env.PRIVATE_KEY,
   });
 
-  const symbols = await client.quote.crypto.getSymbols();
+  const symbols = await client.quote.crypto.getSymbols({ market: 'US' });
   console.log('symbols::', symbols);
 
   const ccBriefs = await client.quote.crypto.getCcBriefs({ symbols: ['BTC', 'ETH'] });
