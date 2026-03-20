@@ -10,7 +10,7 @@ async function probeQuoteCrypto() {
     privateKey: env.PRIVATE_KEY,
   });
 
-  const symbols = await client.quote.crypto.getSymbols();
+  const symbols = await client.quote.crypto.getSymbols({ market: 'US' });
   console.log('symbols::', symbols);
 
   const ccBriefs = await client.quote.crypto.getCcBriefs({ symbols: ['BTC', 'ETH'] });
@@ -19,9 +19,8 @@ async function probeQuoteCrypto() {
   const bars = await client.quote.crypto.getBars({
     symbols: ['BTC'],
     period: 'day',
-    limit: 10,
   });
-  console.log('bars::', bars.data[0].items);
+  console.log('bars::', bars);
 
   const timeline = await client.quote.crypto.getTimeline({ symbols: ['BTC'] });
   console.log('timeline::', timeline);

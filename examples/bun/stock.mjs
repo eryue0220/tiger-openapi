@@ -75,12 +75,19 @@ async function probeQuoteStock() {
   });
   console.log('capitalDistribution::', capitalDistribution);
 
-  const stockBroker = await client.quote.stock.getStockBroker({ symbol: '09988', limit: 10 });
+  // only HK stock
+  const stockBroker = await client.quote.stock.getStockBroker({
+    symbol: '09988',
+    limit: 10,
+    market: 'HK',
+  });
   console.log('stockBroker::', stockBroker);
 
+  // only HK market
   const brokerHold = await client.quote.stock.getBrokerHold({ market: 'HK', limit: 10, page: 1 });
   console.log('brokerHold::', brokerHold.data.items[0]);
 
+  // only HK market
   const tradeRank = await client.quote.stock.getTradeRank({ market: 'HK' });
   console.log('tradeRank::', tradeRank);
 }

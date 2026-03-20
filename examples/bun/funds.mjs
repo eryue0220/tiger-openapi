@@ -25,8 +25,8 @@ async function probeQuoteFunds() {
 
   const fundHistoryQuote = await client.quote.funds.getFundHistoryQuote({
     symbols: ['510300'],
-    begin_time: '2026-03-01',
-    end_time: '2026-03-10',
+    begin_time: 1740787200000,
+    end_time: 1773100800000,
     limit: 20,
   });
   console.log('fundHistoryQuote::', fundHistoryQuote);

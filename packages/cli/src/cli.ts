@@ -2,7 +2,12 @@
 
 import { pathToFileURL } from 'node:url';
 import { Command } from 'commander';
-import { TigerClient, type TigerClientApi, type TigerMarket, type TigerOptionRight } from 'tiger-openapi';
+import {
+  TigerClient,
+  type TigerClientApi,
+  type TigerMarket,
+  type TigerOptionRight,
+} from 'tiger-openapi';
 import {
   createTigerClientFromEnv,
   loadTigerEnvConfig,
