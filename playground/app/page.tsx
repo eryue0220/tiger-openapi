@@ -148,7 +148,7 @@ export default function Home() {
           result = await client.quote.scanner.getScanner({ market, page: 1, page_size: 10 });
           break;
         case 'cryptoSymbols':
-          result = await client.quote.crypto.getSymbols();
+          result = await client.quote.crypto.getSymbols({ market });
           break;
         case 'fundSymbols':
           result = await client.quote.funds.getFundSymbols();
