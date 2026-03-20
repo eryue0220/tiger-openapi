@@ -43,4 +43,21 @@ describe('tiger-openapi-cli command map', () => {
       expect.arrayContaining(['--action <action>', '--order_type <order_type>'])
     );
   });
+
+  it('exposes option query args that map to core quote.options APIs', () => {
+    const program = createProgram();
+    const optionsCommand = program.commands.find((command) => command.name() === 'options');
+
+    expect(optionsCommand).toBeDefined();
+    expect(optionsCommand?.options.map((option) => option.flags)).toEqual(
+      expect.arrayContaining([
+        '-s, --symbol <symbol>',
+        '-e, --expiry <expiry>',
+        '-m, --market <market>',
+        '-r, --right <right>',
+        '--strike <strike>',
+        '--return_greek_value <return_greek_value>',
+      ])
+    );
+  });
 });

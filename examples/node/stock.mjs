@@ -79,7 +79,11 @@ async function probeQuoteStock() {
   console.log('capitalDistribution::', capitalDistribution);
 
   // only HK stock
-  const stockBroker = await client.quote.stock.getStockBroker({ symbol: '09988', limit: 10 });
+  const stockBroker = await client.quote.stock.getStockBroker({
+    symbol: '09988',
+    limit: 10,
+    market: 'HK',
+  });
   console.log('stockBroker::', stockBroker);
 
   // only HK market

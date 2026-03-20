@@ -1,3 +1,4 @@
+import { getDeviceId } from 'tiger-openapi-shared';
 import type { TigerClient } from '../../tiger-client.js';
 import type { TigerApiResponse, TigerRequestOptions } from '../../types.js';
 import type {
@@ -32,7 +33,10 @@ export class QuoteFuturesClient {
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<Array<FutureExchangesResponse>>> {
     const method = 'future_exchange';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const payload = await this.client.buildDefaultParams(method, {
+      ...params,
+      sec_type: params.sec_type ?? 'FUT',
+    });
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -136,7 +140,8 @@ export class QuoteFuturesClient {
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<Array<FutureTradeTicksResponse>>> {
     const method = 'future_tick';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams(method, params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -149,7 +154,8 @@ export class QuoteFuturesClient {
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<Array<FutureBriefResponse>>> {
     const method = 'future_real_time_quote';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams(method, params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,
@@ -162,7 +168,8 @@ export class QuoteFuturesClient {
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<FutureDepthResponse>> {
     const method = 'future_depth';
-    const payload = await this.client.buildDefaultParams(method, params);
+    const deviceId = await getDeviceId();
+    const payload = await this.client.buildDefaultParams(method, params, deviceId);
     return this.client.request({
       body: payload,
       signal: options.signal,

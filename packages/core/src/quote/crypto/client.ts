@@ -5,6 +5,7 @@ import type {
   CryptoBarsResponse,
   CryptoBriefsParams,
   CryptoBriefsResponse,
+  CryptoSymbolsParams,
   CryptoSymbolsResponse,
   CryptoTimelineParams,
   CryptoTimelineResponse,
@@ -21,10 +22,11 @@ export class QuoteCryptoClient {
   }
 
   async getSymbols(
+    params: CryptoSymbolsParams,
     options: TigerRequestOptions = {}
   ): Promise<TigerApiResponse<Array<CryptoSymbolsResponse>>> {
     const method = 'all_symbols';
-    const payload = await this.client.buildDefaultParams(method, { sec_type: 'CC ' });
+    const payload = await this.client.buildDefaultParams(method, this.withSecType(params));
     return this.client.request({
       body: payload,
       signal: options.signal,

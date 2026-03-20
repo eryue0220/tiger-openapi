@@ -42,6 +42,8 @@ async function probeQuoteFutures() {
     contract_codes: ['ESmain'],
     period: 'day',
     limit: 10,
+    begin_time: new Date('2026-03-01').getTime(),
+    end_time: Date.now(),
   });
   console.log('futureBars::', futureBars);
 
@@ -50,6 +52,8 @@ async function probeQuoteFutures() {
     period: 'day',
     page_size: 10,
     total: 10,
+    begin_time: new Date('2026-03-01').getTime(),
+    end_time: Date.now(),
   });
   console.log('futureBarsByPage::', futureBarsByPage);
 

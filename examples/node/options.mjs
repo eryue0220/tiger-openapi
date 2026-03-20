@@ -20,7 +20,7 @@ async function main() {
   console.log('optionExpirations::', optionExpirations);
 
   const optionBriefs = await client.quote.options.getOptionBriefs({
-    option_basic: [{ symbol: 'AAPL', expiry: 1773936000000, right: 'CALL', strike: '250' }],
+    option_basic: [{ symbol: 'AAPL', expiry: 1773936000000, right: 'CALL', strike: '252.50' }],
   });
   console.log('optionBriefs::', optionBriefs);
 
@@ -31,7 +31,8 @@ async function main() {
   console.log('optionChain::', optionChain);
 
   const optionDepth = await client.quote.options.getOptionDepth({
-    option_basic: [{ symbol: 'AAPL' }],
+    option_basic: [{ expiry: 1776398400000, right: 'CALL', strike: '185.0', symbol: 'NVDA' }],
+    market: 'US',
   });
   console.log('optionDepth::', optionDepth);
 

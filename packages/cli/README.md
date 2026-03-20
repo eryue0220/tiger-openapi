@@ -108,6 +108,15 @@ tiger-openapi options --symbol AAPL
 
 # Query option chain for a specific expiration
 tiger-openapi options --symbol AAPL --expiry 2026-03-20
+
+# Query option chain with market/right/strike and greek values
+tiger-openapi options \
+  --symbol AAPL \
+  --expiry 2026-03-20 \
+  --market US \
+  --right CALL \
+  --strike 250 \
+  --return_greek_value true
 ```
 
 ### Fund

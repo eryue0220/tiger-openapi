@@ -13,7 +13,7 @@ async function probeQuoteWarrants() {
   const warrantBriefs = await client.quote.warrants.getWarrantBriefs({
     symbols: ['29145'],
   });
-  console.log('warrantBriefs::', warrantBriefs);
+  console.log('warrantBriefs::', warrantBriefs.data.items);
 
   const warrantFilter = await client.quote.warrants.getWarrantFilter({
     symbol: '00700',

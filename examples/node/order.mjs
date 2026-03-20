@@ -45,7 +45,12 @@ async function probeOrder() {
   logResult('getDerivativeContracts', derivativeContracts);
 
   // 4. getOrders
-  const orders = await client.order.getOrders({ market: 'US', sec_type: 'STK', limit: 10 });
+  const orders = await client.order.getOrders({
+    account,
+    market: 'US',
+    sec_type: 'STK',
+    limit: 10,
+  });
   logResult('getOrders', orders);
 
   const firstOrderId = orders?.data?.items?.[0]?.id;
@@ -73,11 +78,16 @@ async function probeOrder() {
   logResult('getCancelledOrders', cancelledOrders);
 
   // 8. getFilledOrders
-  const filledOrders = await client.order.getFilledOrders({ market: 'US', sec_type: 'STK' });
+  const filledOrders = await client.order.getFilledOrders({
+    market: 'US',
+    sec_type: 'STK',
+    start_date: '2026-03-01',
+    end_date: Date.now(),
+  });
   logResult('getFilledOrders', filledOrders);
 
   // 9. getTransactions
-  const transactions = await client.order.getTransactions({ sec_type: 'STK', limit: 10 });
+  const transactions = await client.order.getTransactions({ account, sec_type: 'STK', limit: 10 });
   logResult('getTransactions', transactions);
 
   // 10. previewOrder
