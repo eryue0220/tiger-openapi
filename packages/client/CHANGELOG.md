@@ -1,5 +1,11 @@
 # tiger-openapi
 
+## 0.3.3
+
+### Patch Changes
+
+- 426bba3: fix examples and type check
+
 ## 0.3.2
 
 ### Patch Changes
