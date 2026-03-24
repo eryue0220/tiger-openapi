@@ -14,27 +14,38 @@ async function main() {
   });
 
   const optionExpirations = await client.quote.options.getOptionExpirations({
-    symbols: ['AAPL'],
+    symbols: ['SPY'],
     market: 'US',
   });
-  console.log('optionExpirations::', optionExpirations);
+  console.log('optionExpirations::', optionExpirations.data[0].timestamps[1]);
 
   const optionBriefs = await client.quote.options.getOptionBriefs({
-    option_basic: [{ symbol: 'AAPL', expiry: 1773936000000, right: 'CALL', strike: '252.50' }],
+    option_basic: [
+      {
+        symbol: 'SPY',
+        expiry: optionExpirations.data[0].timestamps[1],
+        right: 'CALL',
+      },
+    ],
   });
   console.log('optionBriefs::', optionBriefs);
 
   const optionChain = await client.quote.options.getOptionChain({
-    option_basic: [{ symbol: 'AAPL', expiry: 1777003200000, right: 'CALL' }],
+    option_basic: [
+      {
+        symbol: 'SPY',
+        expiry: optionExpirations.data[0].timestamps[0],
+        right: 'CALL',
+        strike: '240.0',
+      },
+    ],
     return_greek_value: true,
   });
-  console.log('optionChain::', optionChain);
-
-  const optionDepth = await client.quote.options.getOptionDepth({
-    option_basic: [{ expiry: 1776398400000, right: 'CALL', strike: '185.0', symbol: 'NVDA' }],
-    market: 'US',
-  });
-  console.log('optionDepth::', optionDepth);
+  console.log(
+    'example::optionChain::',
+    optionExpirations.data[0].timestamps[0],
+    optionChain.data[0].items[optionChain.data[0].items.length - 2]
+  );
 
   const optionTradeTicks = await client.quote.options.getOptionTradeTicks([
     {
