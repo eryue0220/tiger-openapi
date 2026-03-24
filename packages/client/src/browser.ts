@@ -1,11 +1,11 @@
-import { TigerClient as CoreTigerClient, VERSION } from 'tiger-openapi-core';
+import { TigerClient as CoreTigerClient, VERSION } from '../../core/src/index.js';
 import type {
   TigerRuntimeOverrides as CoreTigerRuntimeOverrides,
   TigerSdkConfig,
   TigerWebSocketFactory,
-} from 'tiger-openapi-core';
+} from '../../core/src/index.js';
 
-export type * from 'tiger-openapi-core';
+export type * from '../../core/src/index.js';
 
 export interface TigerRuntimeOverrides extends Omit<CoreTigerRuntimeOverrides, 'createWebSocket'> {
   createWebSocket?: TigerWebSocketFactory;
