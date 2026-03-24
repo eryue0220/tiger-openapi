@@ -8,7 +8,7 @@ export default defineConfig({
   outDir: 'dist',
   tsconfig: './tsconfig.bundle.json',
   format: ['esm'],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   target: 'es2022',
