@@ -1,11 +1,11 @@
 {
   "version": "4",
   "specifiers": {
-    "npm:tiger-openapi@*": "0.3.2"
+    "npm:tiger-openapi@*": "0.3.3"
   },
   "npm": {
-    "tiger-openapi@0.3.2": {
-      "integrity": "sha512-3wtL8LrHhyCl2VXlw5yeaLJUUOC06mKFOF7DZz3F+HarDua7ruEIc6kTZ/n8KmQYe8jWV6Rlon0SINMROxqOfQ=="
+    "tiger-openapi@0.3.3": {
+      "integrity": "sha512-qcJAMc/6afVbxTEvGhLKf/wlSjy8CXUS5fHeEZV2XtFLYWdXfn5wTcnIhJZ+hbJ4LGK7wk9H7PE0RsFiRssJUQ=="
     }
   }
 }
