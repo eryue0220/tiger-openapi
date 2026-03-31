@@ -6,6 +6,7 @@ export type {
   StreamDecoder,
   StreamMessage,
   StreamRuntime,
+  StreamSubscriptionEncoder,
   StreamSubscription,
   TigerWebSocketFactory,
   WebSocketLike,

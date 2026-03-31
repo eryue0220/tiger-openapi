@@ -202,7 +202,46 @@ logResult('getContracts', contracts);
 
 ## Stream
 
-This is still development.
+```typescript
+const client = createTigerClient({
+  tigerId: '...',
+  account: '...',
+  privateKey: '...',
+  stream: {
+    reconnect: { retries: 5 },
+    subscription: {
+      // default: true. if true, subscribe()/unsubscribe() will auto-send
+      // stream commands and auto re-subscribe after reconnect.
+      autoManage: true,
+    },
+  },
+});
+
+await client.connect();
+
+const topic = 'quote.AAPL';
+const unsubscribe = client.subscribe({
+  topic,
+  listener: (message) => {
+    console.log('stream::', message.topic, message.payload);
+  },
+});
+
+// manual publish if needed
+client.publish({
+  topic,
+  payload: JSON.stringify({ action: 'subscribe', topic }),
+});
+
+// explicit topic controls
+client.subscribeTopic(topic);
+client.unsubscribeTopic(topic);
+
+unsubscribe?.();
+client.close();
+```
+
+Node example: [examples/node/stream.mjs](../../examples/node/stream.mjs)
 
 ## References
 

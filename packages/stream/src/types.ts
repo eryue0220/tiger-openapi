@@ -28,12 +28,21 @@ export interface StreamRuntime {
   codecRegistry?: PbCodecRegistry;
 }
 
+export interface StreamSubscriptionEncoder {
+  encodeSubscribe(topic: string): EncodedStreamMessage;
+  encodeUnsubscribe(topic: string): EncodedStreamMessage;
+}
+
 export interface StreamClientOptions {
   url: string;
   heartbeatIntervalMs?: number;
   reconnect?: {
     retries?: number;
     getDelayMs?(attempt: number): number;
+  };
+  subscription?: {
+    autoManage?: boolean;
+    encoder?: StreamSubscriptionEncoder;
   };
   runtime: StreamRuntime;
 }

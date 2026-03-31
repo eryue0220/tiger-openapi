@@ -5,9 +5,12 @@ import type {
   StreamClientOptions,
   StreamDecoder,
   StreamMessage,
+  StreamSubscriptionEncoder,
   StreamSubscription,
   WebSocketLike,
 } from './types.js';
+
+const WS_READY_STATE_OPEN = 1;
 
 function createDefaultDecoder(): StreamDecoder {
   return async (event) => {
@@ -16,6 +19,19 @@ function createDefaultDecoder(): StreamDecoder {
     }
 
     throw new TigerStreamError('Binary stream decoding requires a protobuf decoder');
+  };
+}
+
+function createDefaultSubscriptionEncoder(): StreamSubscriptionEncoder {
+  return {
+    encodeSubscribe: (topic) => ({
+      topic,
+      payload: JSON.stringify({ action: 'subscribe', topic }),
+    }),
+    encodeUnsubscribe: (topic) => ({
+      topic,
+      payload: JSON.stringify({ action: 'unsubscribe', topic }),
+    }),
   };
 }
 
@@ -33,7 +49,7 @@ export class TigerStreamClient {
   }
 
   async connect(): Promise<void> {
-    if (this.socket?.readyState === WebSocket.OPEN) {
+    if (this.socket?.readyState === WS_READY_STATE_OPEN) {
       return;
     }
 
@@ -45,6 +61,7 @@ export class TigerStreamClient {
       socket.onopen = () => {
         this.reconnectAttempt = 0;
         this.startHeartbeat();
+        this.resubscribeTopics();
         resolve();
       };
 
@@ -64,21 +81,36 @@ export class TigerStreamClient {
   }
 
   subscribe(subscription: StreamSubscription): () => void {
-    const listeners = this.subscriptions.get(subscription.topic) ?? new Set();
+    const topic = subscription.topic;
+    const hadTopic = this.subscriptions.has(topic);
+    const listeners = this.subscriptions.get(topic) ?? new Set();
     listeners.add(subscription.listener);
-    this.subscriptions.set(subscription.topic, listeners);
+    this.subscriptions.set(topic, listeners);
+
+    if (!hadTopic) {
+      this.trySendSubscription(topic, 'subscribe');
+    }
 
     return () => {
-      const currentListeners = this.subscriptions.get(subscription.topic);
+      const currentListeners = this.subscriptions.get(topic);
       currentListeners?.delete(subscription.listener);
       if (currentListeners && currentListeners.size === 0) {
-        this.subscriptions.delete(subscription.topic);
+        this.subscriptions.delete(topic);
+        this.trySendSubscription(topic, 'unsubscribe');
       }
     };
   }
 
+  subscribeTopic(topic: string): void {
+    this.trySendSubscription(topic, 'subscribe');
+  }
+
+  unsubscribeTopic(topic: string): void {
+    this.trySendSubscription(topic, 'unsubscribe');
+  }
+
   send(message: EncodedStreamMessage): void {
-    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+    if (!this.socket || this.socket.readyState !== WS_READY_STATE_OPEN) {
       throw new TigerStreamError('WebSocket is not connected');
     }
 
@@ -99,7 +131,7 @@ export class TigerStreamClient {
     this.stopHeartbeat();
     const heartbeatIntervalMs = this.options.heartbeatIntervalMs ?? 15_000;
     this.heartbeatTimer = setInterval(() => {
-      if (this.socket?.readyState === WebSocket.OPEN) {
+      if (this.socket?.readyState === WS_READY_STATE_OPEN) {
         this.socket.send(JSON.stringify({ type: 'ping' }));
       }
     }, heartbeatIntervalMs);
@@ -126,6 +158,35 @@ export class TigerStreamClient {
     this.reconnectAttempt += 1;
     await sleep(delayMs);
     await this.connect();
+  }
+
+  private resubscribeTopics() {
+    if (!this.shouldAutoManageSubscription()) {
+      return;
+    }
+
+    for (const topic of this.subscriptions.keys()) {
+      this.trySendSubscription(topic, 'subscribe');
+    }
+  }
+
+  private shouldAutoManageSubscription() {
+    return this.options.subscription?.autoManage ?? true;
+  }
+
+  private getSubscriptionEncoder(): StreamSubscriptionEncoder {
+    return this.options.subscription?.encoder ?? createDefaultSubscriptionEncoder();
+  }
+
+  private trySendSubscription(topic: string, action: 'subscribe' | 'unsubscribe') {
+    if (!this.shouldAutoManageSubscription() || this.socket?.readyState !== WS_READY_STATE_OPEN) {
+      return;
+    }
+
+    const encoder = this.getSubscriptionEncoder();
+    const message =
+      action === 'subscribe' ? encoder.encodeSubscribe(topic) : encoder.encodeUnsubscribe(topic);
+    this.send(message);
   }
 }
 

@@ -1,5 +1,6 @@
 import { createHttpClient, TigerHttpClient } from 'tiger-openapi-http';
 import { createStreamClient, TigerStreamClient } from 'tiger-openapi-stream';
+import type { EncodedStreamMessage } from 'tiger-openapi-stream';
 
 import { createAccountClient, AccountClient } from './account/index.js';
 import { createQuoteClient, QuoteClient } from './quote/index.js';
@@ -46,6 +47,7 @@ export class TigerClient extends TigerClientUtil {
             url: `wss://${wsUrl}:${wsPort}`,
             heartbeatIntervalMs: this.config.stream?.heartbeatIntervalMs,
             reconnect: this.config.stream?.reconnect,
+            subscription: this.config.stream?.subscription,
             runtime: {
               createWebSocket: runtime.createWebSocket,
               codecRegistry: this.config.pb?.registry,
@@ -72,6 +74,18 @@ export class TigerClient extends TigerClientUtil {
 
   subscribe(subscription: TigerSubscription): (() => void) | undefined {
     return this.stream?.subscribe(subscription);
+  }
+
+  subscribeTopic(topic: string): void {
+    this.stream?.subscribeTopic(topic);
+  }
+
+  unsubscribeTopic(topic: string): void {
+    this.stream?.unsubscribeTopic(topic);
+  }
+
+  publish(message: EncodedStreamMessage): void {
+    this.stream?.send(message);
   }
 
   close(): void {
