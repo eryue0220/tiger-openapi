@@ -85,13 +85,17 @@ describe('tiger-openapi-stream', () => {
       listener: () => undefined,
     });
 
-    expect(sockets[0]?.sent).toContain(JSON.stringify({ action: 'subscribe', topic: 'trade.AAPL' }));
+    expect(sockets[0]?.sent).toContain(
+      JSON.stringify({ action: 'subscribe', topic: 'trade.AAPL' })
+    );
 
     sockets[0]?.close();
     await flushTimers();
 
     expect(sockets.length).toBe(2);
-    expect(sockets[1]?.sent).toContain(JSON.stringify({ action: 'subscribe', topic: 'trade.AAPL' }));
+    expect(sockets[1]?.sent).toContain(
+      JSON.stringify({ action: 'subscribe', topic: 'trade.AAPL' })
+    );
   });
 
   it('does not auto-manage subscription messages when disabled', async () => {

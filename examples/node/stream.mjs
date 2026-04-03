@@ -15,11 +15,18 @@ function assertRequiredEnv(name) {
 }
 
 async function main() {
+  const topic = process.env.STREAM_TOPIC ?? 'cc:BTC';
+  const timeoutMs = Number(process.env.STREAM_TIMEOUT_MS ?? 30_000);
+  const env = process.env.TIGER_ENV;
+  let messageCount = 0;
+
   const client = createTigerClient({
     tigerId: assertRequiredEnv('TIGER_ID'),
     account: assertRequiredEnv('ACCOUNT'),
     privateKey: assertRequiredEnv('PRIVATE_KEY'),
+    env: env === 'prod' || env === 'us' || env === 'sandbox' ? env : undefined,
     stream: {
+      protocol: 'tiger-push',
       reconnect: {
         retries: 5,
       },
@@ -30,26 +37,44 @@ async function main() {
     },
   });
 
+  console.log('connecting stream...');
   await client.connect();
+  console.log(`connected, subscribing topic: ${topic}`);
 
-  const topic = 'quote.AAPL';
   const unsubscribe = client.subscribe({
     topic,
     listener: (message) => {
-      console.log('stream message::', message);
+      messageCount += 1;
+      console.log(`stream message #${messageCount}::`, message);
     },
   });
 
-  // If needed, you can also send the raw stream command manually.
-  client.publish({
-    topic,
-    payload: JSON.stringify({ action: 'subscribe', topic }),
+  const unsubscribeAll = client.subscribe({
+    topic: '*',
+    listener: (message) => {
+      if (typeof message.topic === 'string' && message.topic.startsWith('__control__')) {
+        console.log('control::', message);
+      }
+    },
   });
 
-  setTimeout(() => {
-    unsubscribe?.();
-    client.close();
-  }, 30_000);
+  await new Promise((resolve) => {
+    globalThis.setTimeout(resolve, timeoutMs);
+  });
+
+  unsubscribe?.();
+  unsubscribeAll?.();
+  client.close();
+
+  if (messageCount === 0) {
+    console.log(
+      `no stream payload received in ${timeoutMs}ms. check STREAM_TOPIC / account quote permission / market trading session.`
+    );
+    process.exitCode = 2;
+    return;
+  }
+
+  console.log(`received ${messageCount} stream messages.`);
 }
 
 main().catch((err) => {

@@ -42,6 +42,9 @@ export class TigerStreamClient {
   private readonly decoder: StreamDecoder;
   private heartbeatTimer: ReturnType<typeof setInterval> | undefined;
   private reconnectAttempt = 0;
+  private connectAckResolver:
+    | { resolve(): void; reject(error: unknown): void; settled: boolean }
+    | undefined;
 
   constructor(options: StreamClientOptions, decoder: StreamDecoder = createDefaultDecoder()) {
     this.options = options;
@@ -59,17 +62,51 @@ export class TigerStreamClient {
 
     await new Promise<void>((resolve, reject) => {
       socket.onopen = () => {
-        this.reconnectAttempt = 0;
-        this.startHeartbeat();
-        this.resubscribeTopics();
-        resolve();
+        void (async () => {
+          try {
+            await this.options.handshake?.onOpen?.({
+              send: (message) => this.send(message),
+            });
+
+            this.reconnectAttempt = 0;
+            this.startHeartbeat();
+            this.resubscribeTopics();
+
+            if (this.options.isConnectAck) {
+              this.connectAckResolver = {
+                resolve,
+                reject,
+                settled: false,
+              };
+              const timeoutMs = this.options.connectAckTimeoutMs ?? 10_000;
+              globalThis.setTimeout(() => {
+                if (this.connectAckResolver && !this.connectAckResolver.settled) {
+                  this.connectAckResolver.settled = true;
+                  reject(new TigerStreamError('Stream connect ack timeout'));
+                }
+              }, timeoutMs);
+              return;
+            }
+
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        })();
       };
 
-      socket.onerror = () => {
-        reject(new TigerStreamError('WebSocket connection failed', { url: this.options.url }));
+      socket.onerror = (event) => {
+        const cause = (event as Event & { error?: unknown }).error;
+        reject(
+          new TigerStreamError('WebSocket connection failed', {
+            url: this.options.url,
+            cause: cause instanceof Error ? cause.message : cause,
+          })
+        );
       };
 
       socket.onclose = () => {
+        this.connectAckResolver = undefined;
         this.stopHeartbeat();
         void this.reconnect();
       };
@@ -88,7 +125,9 @@ export class TigerStreamClient {
     this.subscriptions.set(topic, listeners);
 
     if (!hadTopic) {
-      this.trySendSubscription(topic, 'subscribe');
+      if (topic !== '*') {
+        this.trySendSubscription(topic, 'subscribe');
+      }
     }
 
     return () => {
@@ -96,7 +135,9 @@ export class TigerStreamClient {
       currentListeners?.delete(subscription.listener);
       if (currentListeners && currentListeners.size === 0) {
         this.subscriptions.delete(topic);
-        this.trySendSubscription(topic, 'unsubscribe');
+        if (topic !== '*') {
+          this.trySendSubscription(topic, 'unsubscribe');
+        }
       }
     };
   }
@@ -118,13 +159,32 @@ export class TigerStreamClient {
   }
 
   close(): void {
+    this.connectAckResolver = undefined;
     this.stopHeartbeat();
     this.socket?.close();
   }
 
   private async dispatch(event: MessageEvent<string | ArrayBuffer | Blob>) {
     const message = await this.decoder(event, this.options.runtime);
+    if (
+      this.options.isConnectAck?.(message) &&
+      this.connectAckResolver &&
+      !this.connectAckResolver.settled
+    ) {
+      this.connectAckResolver.settled = true;
+      this.connectAckResolver.resolve();
+    }
+
     this.subscriptions.get(message.topic)?.forEach((listener) => listener(message));
+    for (const [topic, listeners] of this.subscriptions.entries()) {
+      if (topic.includes(':')) {
+        const [prefix] = topic.split(':', 1);
+        if (prefix === message.topic) {
+          listeners.forEach((listener) => listener(message));
+        }
+      }
+    }
+    this.subscriptions.get('*')?.forEach((listener) => listener(message));
   }
 
   private startHeartbeat() {
@@ -132,7 +192,13 @@ export class TigerStreamClient {
     const heartbeatIntervalMs = this.options.heartbeatIntervalMs ?? 15_000;
     this.heartbeatTimer = setInterval(() => {
       if (this.socket?.readyState === WS_READY_STATE_OPEN) {
-        this.socket.send(JSON.stringify({ type: 'ping' }));
+        if (this.options.heartbeat?.enabled === false) {
+          return;
+        }
+
+        const payload =
+          this.options.heartbeat?.buildPayload?.() ?? JSON.stringify({ type: 'ping' });
+        this.socket.send(payload);
       }
     }, heartbeatIntervalMs);
   }

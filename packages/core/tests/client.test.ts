@@ -36,13 +36,17 @@ describe('tiger-openapi-core', () => {
 
   it('supports stream connect and publish when stream is enabled', async () => {
     const socket = new MockWebSocket();
+    let capturedUrl = '';
     const client = new TigerClient({
       tigerId: '20150144',
       account: 'U123456789',
       privateKey: 'private-key',
-      stream: {},
+      stream: {
+        protocol: 'legacy-json',
+      },
       runtime: {
-        createWebSocket: () => {
+        createWebSocket: (url) => {
+          capturedUrl = url;
           queueMicrotask(() => socket.onopen?.({} as Event));
           return socket;
         },
@@ -58,5 +62,6 @@ describe('tiger-openapi-core', () => {
     client.close();
 
     expect(socket.sent.length).toBeGreaterThan(0);
+    expect(capturedUrl).toBe('wss://openapi.tigerfintech.com:9883');
   });
 });

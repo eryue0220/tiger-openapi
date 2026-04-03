@@ -20,6 +20,7 @@ export interface TigerHttpConfig {
 }
 
 export interface TigerStreamConfig {
+  protocol?: 'tiger-push' | 'legacy-json';
   heartbeatIntervalMs?: number;
   reconnect?: {
     retries?: number;

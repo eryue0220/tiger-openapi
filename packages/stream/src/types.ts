@@ -36,6 +36,15 @@ export interface StreamSubscriptionEncoder {
 export interface StreamClientOptions {
   url: string;
   heartbeatIntervalMs?: number;
+  heartbeat?: {
+    enabled?: boolean;
+    buildPayload?(): EncodedStreamMessage['payload'];
+  };
+  handshake?: {
+    onOpen?(context: { send(message: EncodedStreamMessage): void }): Promise<void> | void;
+  };
+  isConnectAck?(message: StreamMessage): boolean;
+  connectAckTimeoutMs?: number;
   reconnect?: {
     retries?: number;
     getDelayMs?(attempt: number): number;

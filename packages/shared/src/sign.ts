@@ -154,3 +154,18 @@ export async function signParams(params: Record<string, string | undefined>): Pr
   const signature = await subtle.sign('RSASSA-PKCS1-v1_5', key, encoded);
   return toBase64(new Uint8Array(signature));
 }
+
+export async function signText(privateKeyRaw: string, text: string): Promise<string> {
+  const privateKey = normalizePrivateKey(privateKeyRaw);
+  if (!privateKey) throw new Error('privateKey is required for signing');
+
+  const key = await importPrivateKey(privateKey);
+  const subtle = globalThis.crypto?.subtle;
+  if (!subtle) {
+    throw new Error('Web Crypto API is not available in the current runtime.');
+  }
+
+  const encoded = new TextEncoder().encode(text);
+  const signature = await subtle.sign('RSASSA-PKCS1-v1_5', key, encoded);
+  return toBase64(new Uint8Array(signature));
+}

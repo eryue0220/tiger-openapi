@@ -208,6 +208,8 @@ const client = createTigerClient({
   account: '...',
   privateKey: '...',
   stream: {
+    // default is tiger-push (TLS + protobuf)
+    protocol: 'tiger-push',
     reconnect: { retries: 5 },
     subscription: {
       // default: true. if true, subscribe()/unsubscribe() will auto-send
@@ -219,18 +221,12 @@ const client = createTigerClient({
 
 await client.connect();
 
-const topic = 'quote.AAPL';
+const topic = 'cc:BTC';
 const unsubscribe = client.subscribe({
   topic,
   listener: (message) => {
     console.log('stream::', message.topic, message.payload);
   },
-});
-
-// manual publish if needed
-client.publish({
-  topic,
-  payload: JSON.stringify({ action: 'subscribe', topic }),
 });
 
 // explicit topic controls
