@@ -202,7 +202,42 @@ logResult('getContracts', contracts);
 
 ## Stream
 
-This is still development.
+```typescript
+const client = createTigerClient({
+  tigerId: '...',
+  account: '...',
+  privateKey: '...',
+  stream: {
+    // default is tiger-push (TLS + protobuf)
+    protocol: 'tiger-push',
+    reconnect: { retries: 5 },
+    subscription: {
+      // default: true. if true, subscribe()/unsubscribe() will auto-send
+      // stream commands and auto re-subscribe after reconnect.
+      autoManage: true,
+    },
+  },
+});
+
+await client.connect();
+
+const topic = 'cc:BTC';
+const unsubscribe = client.subscribe({
+  topic,
+  listener: (message) => {
+    console.log('stream::', message.topic, message.payload);
+  },
+});
+
+// explicit topic controls
+client.subscribeTopic(topic);
+client.unsubscribeTopic(topic);
+
+unsubscribe?.();
+client.close();
+```
+
+Node example: [examples/node/stream.mjs](../../examples/node/stream.mjs)
 
 ## References
 

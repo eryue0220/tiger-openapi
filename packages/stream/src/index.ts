@@ -1,4 +1,13 @@
 export { TigerStreamClient, createStreamClient } from './client.js';
+export {
+  createTigerPushConnectMessage,
+  createTigerPushDecoder,
+  createTigerPushHeartbeatMessage,
+  createTigerPushSubscriptionEncoder,
+  encodeVarintFrame,
+  tigerPushConnectAckTopic,
+  VarintFrameReader,
+} from './protocol.js';
 export type {
   EncodedStreamMessage,
   PbStreamEnvelope,
@@ -6,6 +15,7 @@ export type {
   StreamDecoder,
   StreamMessage,
   StreamRuntime,
+  StreamSubscriptionEncoder,
   StreamSubscription,
   TigerWebSocketFactory,
   WebSocketLike,

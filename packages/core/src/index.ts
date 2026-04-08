@@ -1,4 +1,10 @@
-export type { TigerWebSocketFactory } from 'tiger-openapi-stream';
+export type {
+  EncodedStreamMessage,
+  StreamDecoder,
+  StreamMessage,
+  StreamSubscriptionEncoder,
+  TigerWebSocketFactory,
+} from 'tiger-openapi-stream';
 export { createTigerClient, TigerClient } from './tiger-client.js';
 export type {
   AccountClient,

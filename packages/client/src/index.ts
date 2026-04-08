@@ -4,6 +4,7 @@ import type {
   TigerSdkConfig,
   TigerWebSocketFactory,
 } from '../../core/src/index.js';
+import { createTigerTcpSocket } from './tcp-socket.js';
 
 export type * from '../../core/src/index.js';
 
@@ -22,15 +23,7 @@ function resolveNodeWebSocket(factory?: TigerWebSocketFactory): TigerWebSocketFa
     return factory;
   }
 
-  return (url: string) => {
-    if (typeof globalThis.WebSocket !== 'function') {
-      throw new Error(
-        'No WebSocket implementation available in Node.js. Pass runtime.createWebSocket explicitly.'
-      );
-    }
-
-    return new globalThis.WebSocket(url);
-  };
+  return createTigerTcpSocket;
 }
 
 function createNodeConfig(config: TigerClientConfig): TigerSdkConfig {

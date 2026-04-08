@@ -21,6 +21,7 @@
     "typecheck": "tsc -b ."
   },
   "dependencies": {
+    "protobufjs": "^8.0.0",
     "tiger-openapi-pb": "workspace:*",
     "tiger-openapi-shared": "workspace:*"
   }

@@ -35,6 +35,7 @@ export class TigerClientUtil {
         },
       },
       stream: {
+        ...this.config.stream,
         heartbeatIntervalMs: this.DEFAULT_CONFIG.stream.heartbeatIntervalMs,
         reconnect: {
           ...this.DEFAULT_CONFIG.stream.reconnect,
@@ -66,7 +67,7 @@ export class TigerClientUtil {
   }
 
   protected buildURL(type: 'http' | 'ws') {
-    const PROD_URL = 'openapi.tigerfintech.com/gateway';
+    const PROD_URL = 'openapi.tigerfintech.com';
     const US_URL = 'openapi.tradeup.com';
     const SANDBOX_URL = 'openapi-sandbox.tigerfintech.com';
     const isHTTP = type === 'http';

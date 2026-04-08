@@ -7,4 +7,4 @@ export { TigerError, TigerHttpError, TigerStreamError } from './errors.js';
 export { noopLogger } from './logger.js';
 export type { TigerLogger } from './logger.js';
 export { sleep } from './sleep.js';
-export { signParams } from './sign.js';
+export { signParams, signText } from './sign.js';

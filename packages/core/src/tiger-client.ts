@@ -1,5 +1,14 @@
 import { createHttpClient, TigerHttpClient } from 'tiger-openapi-http';
-import { createStreamClient, TigerStreamClient } from 'tiger-openapi-stream';
+import {
+  createStreamClient,
+  createTigerPushConnectMessage,
+  createTigerPushDecoder,
+  createTigerPushHeartbeatMessage,
+  createTigerPushSubscriptionEncoder,
+  TigerStreamClient,
+} from 'tiger-openapi-stream';
+import type { EncodedStreamMessage } from 'tiger-openapi-stream';
+import { signText } from 'tiger-openapi-shared';
 
 import { createAccountClient, AccountClient } from './account/index.js';
 import { createQuoteClient, QuoteClient } from './quote/index.js';
@@ -34,6 +43,7 @@ export class TigerClient extends TigerClientUtil {
     const runtime = resolveRuntime(this.config.runtime);
     const { url, path } = this.buildURL('http');
     const { url: wsUrl, port: wsPort } = this.buildURL('ws');
+    const useTigerPushProtocol = (this.config.stream?.protocol ?? 'tiger-push') === 'tiger-push';
 
     this.http = createHttpClient({
       url: `https://${url}${path}`,
@@ -45,13 +55,40 @@ export class TigerClient extends TigerClientUtil {
           {
             url: `wss://${wsUrl}:${wsPort}`,
             heartbeatIntervalMs: this.config.stream?.heartbeatIntervalMs,
+            heartbeat: useTigerPushProtocol
+              ? {
+                  buildPayload: () => createTigerPushHeartbeatMessage().payload,
+                }
+              : undefined,
+            handshake: useTigerPushProtocol
+              ? {
+                  onOpen: async ({ send }) => {
+                    const sign = await signText(this.config.privateKey, this.config.tigerId);
+                    send(
+                      createTigerPushConnectMessage({
+                        tigerId: this.config.tigerId,
+                        sign,
+                        sendIntervalMs: this.config.stream?.heartbeatIntervalMs ?? 10_000,
+                        receiveIntervalMs: this.config.stream?.heartbeatIntervalMs ?? 10_000,
+                      })
+                    );
+                  },
+                }
+              : undefined,
             reconnect: this.config.stream?.reconnect,
+            subscription: {
+              ...this.config.stream?.subscription,
+              encoder:
+                this.config.stream?.subscription?.encoder ??
+                (useTigerPushProtocol ? createTigerPushSubscriptionEncoder() : undefined),
+            },
             runtime: {
               createWebSocket: runtime.createWebSocket,
               codecRegistry: this.config.pb?.registry,
             },
           },
-          this.config.stream?.decoder
+          this.config.stream?.decoder ??
+            (useTigerPushProtocol ? createTigerPushDecoder() : undefined)
         )
       : undefined;
 
@@ -72,6 +109,18 @@ export class TigerClient extends TigerClientUtil {
 
   subscribe(subscription: TigerSubscription): (() => void) | undefined {
     return this.stream?.subscribe(subscription);
+  }
+
+  subscribeTopic(topic: string): void {
+    this.stream?.subscribeTopic(topic);
+  }
+
+  unsubscribeTopic(topic: string): void {
+    this.stream?.unsubscribeTopic(topic);
+  }
+
+  publish(message: EncodedStreamMessage): void {
+    this.stream?.send(message);
   }
 
   close(): void {

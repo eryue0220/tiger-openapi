@@ -1,6 +1,6 @@
 import type { RetryPolicy, TigerRequest, TigerResponse } from 'tiger-openapi-http';
 import type { PbCodecRegistry } from 'tiger-openapi-pb';
-import type { StreamDecoder, StreamMessage } from 'tiger-openapi-stream';
+import type { StreamDecoder, StreamMessage, StreamSubscriptionEncoder } from 'tiger-openapi-stream';
 
 import type { TigerRuntimeOverrides } from './runtime.js';
 export type { TigerRuntimeOverrides } from './runtime.js';
@@ -20,10 +20,15 @@ export interface TigerHttpConfig {
 }
 
 export interface TigerStreamConfig {
+  protocol?: 'tiger-push' | 'legacy-json';
   heartbeatIntervalMs?: number;
   reconnect?: {
     retries?: number;
     getDelayMs?(attempt: number): number;
+  };
+  subscription?: {
+    autoManage?: boolean;
+    encoder?: StreamSubscriptionEncoder;
   };
   decoder?: StreamDecoder;
 }
