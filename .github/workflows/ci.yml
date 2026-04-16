@@ -26,6 +26,20 @@ jobs:
         with:
           version: 9.15.0
 
+      - name: Fix pnpm PATH precedence (action-setup v6 workaround)
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
+          if [[ -n "${PNPM_HOME:-}" && -x "${PNPM_HOME}/bin/pnpm" ]]; then
+            echo "${PNPM_HOME}/bin" >> "$GITHUB_PATH"
+            export PATH="${PNPM_HOME}/bin:$PATH"
+          fi
+          actual="$(pnpm --version)"
+          echo "pnpm from: $(command -v pnpm)"
+          echo "pnpm version: $actual (expected: $expected)"
+          [[ "$actual" == "$expected" ]]
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -50,6 +64,20 @@ jobs:
       - uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
+
+      - name: Fix pnpm PATH precedence (action-setup v6 workaround)
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
+          if [[ -n "${PNPM_HOME:-}" && -x "${PNPM_HOME}/bin/pnpm" ]]; then
+            echo "${PNPM_HOME}/bin" >> "$GITHUB_PATH"
+            export PATH="${PNPM_HOME}/bin:$PATH"
+          fi
+          actual="$(pnpm --version)"
+          echo "pnpm from: $(command -v pnpm)"
+          echo "pnpm version: $actual (expected: $expected)"
+          [[ "$actual" == "$expected" ]]
 
       - uses: actions/setup-node@v6
         with:
@@ -87,6 +115,20 @@ jobs:
       - uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
+
+      - name: Fix pnpm PATH precedence (action-setup v6 workaround)
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
+          if [[ -n "${PNPM_HOME:-}" && -x "${PNPM_HOME}/bin/pnpm" ]]; then
+            echo "${PNPM_HOME}/bin" >> "$GITHUB_PATH"
+            export PATH="${PNPM_HOME}/bin:$PATH"
+          fi
+          actual="$(pnpm --version)"
+          echo "pnpm from: $(command -v pnpm)"
+          echo "pnpm version: $actual (expected: $expected)"
+          [[ "$actual" == "$expected" ]]
 
       - uses: actions/setup-node@v6
         with:
