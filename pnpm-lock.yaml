@@ -168,7 +168,7 @@ importers:
       lucide-react:
         specifier: ^1.7.0
         version: 1.8.0(react@19.2.5)
-      next:
+      'next':
         specifier: 16.2.3
         version: 16.2.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       next-themes:
