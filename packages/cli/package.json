@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "commander": "^14.0.3",
-    "dotenv": "^17.4.0",
+    "dotenv": "^17.4.1",
     "tiger-openapi": "workspace:^"
   },
   "author": "eryue0220<eryue0220@gmail.com>",
