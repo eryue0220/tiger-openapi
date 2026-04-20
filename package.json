@@ -35,7 +35,7 @@
     "version-packages": "changeset version && node ./scripts/sync-jsr-manifests.mjs && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.30.0",
+    "@changesets/cli": "^2.31.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.5.2",
     "@vitest/coverage-v8": "^4.1.4",
