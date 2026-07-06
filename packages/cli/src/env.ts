@@ -57,8 +57,7 @@ export function loadTigerEnvConfig(options: CreateClientFromEnvOptions = {}): Ti
     env.TIGER_PRIVATE_KEY ??
     env.TIGER_OPENAPI_PRIVATE_KEY;
   const envName = (options.env ?? cliConfig.env ?? env.TIGER_ENV ?? env.TIGER_OPENAPI_ENV) as
-    | TigerEnvConfig['env']
-    | undefined;
+    TigerEnvConfig['env'] | undefined;
 
   const resolvedEnv: TigerEnvConfig['env'] = envName ?? 'prod';
 
